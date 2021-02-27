@@ -1,9 +1,8 @@
-import React from 'react'
-import { useState } from 'react'
-import { Link } from 'react-router-dom'
-import { Form, Button, Row, Col } from 'react-bootstrap'
-import FormContainer from '../components/FormContainer'
-
+import React from 'react';
+import { useState } from 'react';
+import { Form, Button } from 'react-bootstrap';
+import FormContainer from '../components/FormContainer';
+import { auth } from '../configs/firebase.config';
 const RegisterScreen = () => {
 
     const [name, setName] = useState('')
@@ -20,11 +19,22 @@ const RegisterScreen = () => {
 
 
     const uploadFileHandler = async (e) => {
-      
+        
       }
     
-      const submitHandler = (e) => {
+      const submitHandler = async (e) => {
         e.preventDefault()
+        if(password !== confirmPassword)return;
+        try{
+            const response = await auth.createUserWithEmailAndPassword(email, password);
+            
+            console.log(response);
+        }catch(err){
+            console.log(err);
+        } 
+        setEmail('');
+        setPassword('');
+        setConfirmPassword('');
         
       }
 
