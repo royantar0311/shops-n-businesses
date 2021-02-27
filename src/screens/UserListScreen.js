@@ -1,6 +1,7 @@
 import React from 'react'
 import { LinkContainer } from 'react-router-bootstrap'
-import { Table, Button } from 'react-bootstrap'
+import { Table, Button, Row, Col } from 'react-bootstrap'
+
 import users from '../businesses'
 
 
@@ -12,8 +13,25 @@ const UserListScreen = () => {
 
     return (
         <>
-            <h1>Users</h1>
+            <Row className='align-items-center'>
+                <Col className='text-left'>
+                    <LinkContainer to={`/admin/user/addbusiness`}>
+                        <Button className='my-3'>
+                            <i className='fas fa-plus'></i> Create Business
+          </Button>
+                    </LinkContainer>
+                </Col>
+                <Col className='text-right'>
+                    <LinkContainer to={`/admin/user/addcategory`}>
+                        <Button className='my-3'>
+                            <i className='fas fa-plus'></i> Create Category
+          </Button>
+                    </LinkContainer>
+                </Col>
+            </Row>
 
+
+            <h1>Users</h1>
             <Table striped bordered hover responsive className='table-sm'>
                 <thead>
                     <tr>

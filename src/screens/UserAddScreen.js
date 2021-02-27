@@ -1,20 +1,18 @@
 import React from 'react'
-import users from '../businesses'
 import { useState } from 'react'
 import { Link } from 'react-router-dom'
 import { Form, Button, Row, Col } from 'react-bootstrap'
 import FormContainer from '../components/FormContainer'
 
-const UserEditScreen = ({ match }) => {
-    const user = users.find((p) => p._id === match.params.id)
+const UserAddScreen = () => {
 
-    const [name, setName] = useState(user.name)
-    const [contactNumber, setContactNumber] = useState(user.conatct)
-    const [address, setAddress] = useState(user.address)
-    const [category, setCategory] = useState(user.category)
-    const [products, setProducts] = useState(user.products)
-    const [description, setDescription] = useState(user.description)
-    const [image, setImage] = useState(user.image)
+    const [name, setName] = useState("")
+    const [contactNumber, setContactNumber] = useState("")
+    const [address, setAddress] = useState("")
+    const [category, setCategory] = useState("")
+    const [products, setProducts] = useState("")
+    const [description, setDescription] = useState("")
+    const [image, setImage] = useState("")
 
     const uploadFileHandler = async (e) => {
 
@@ -28,7 +26,7 @@ const UserEditScreen = ({ match }) => {
     return (
         <>
             <FormContainer>
-                <h1>Edit & Approve</h1>
+                <h1>Add Business</h1>
                 <Form onSubmit={submitHandler}>
                     <Form.Group controlId='name'>
                         <Form.Label>Business Name</Form.Label>
@@ -113,8 +111,8 @@ const UserEditScreen = ({ match }) => {
                     </Form.Group>
 
                     <Button type='submit' variant='primary'>
-                        Approve
-        </Button>
+                        Add Business
+    </Button>
                 </Form>
 
 
@@ -124,4 +122,4 @@ const UserEditScreen = ({ match }) => {
     )
 }
 
-export default UserEditScreen
+export default UserAddScreen

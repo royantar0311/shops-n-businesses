@@ -9,6 +9,8 @@ import LoginScreen from './screens/LoginScreen'
 import RegisterScreen from './screens/RegisterScreen'
 import UserListScreen from './screens/UserListScreen'
 import UserEditScreen from './screens/UserEditScreen'
+import UserAddScreen from './screens/UserAddScreen'
+import UserCategoryScreen from './screens/UserCategoryScreen'
 import { BrowserRouter as Router, Route } from 'react-router-dom'
 import { useDispatch } from 'react-redux';
 import { fetchCategories } from './redux/firestore/categories/categories.actions'
@@ -33,6 +35,8 @@ const App = () => {
           <Route path='/register' component={RegisterScreen} />
           <Route path='/admin/userlist' component={UserListScreen} />
           <Route path='/admin/user/:id/edit' component={UserEditScreen} />
+          <Route path='/admin/user/addbusiness' component={UserAddScreen} />
+          <Route path='/admin/user/addcategory' component={UserCategoryScreen} />
         </Container>
       </main>
       <Footer />
