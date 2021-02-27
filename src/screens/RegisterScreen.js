@@ -1,10 +1,18 @@
-import React from 'react'
-import { useState } from 'react'
-import { Link } from 'react-router-dom'
-import { Form, Button, Row, Col } from 'react-bootstrap'
-import FormContainer from '../components/FormContainer'
+import React from 'react';
+import { useState } from 'react';
+import { Form, Button } from 'react-bootstrap';
+import FormContainer from '../components/FormContainer';
+import {  auth } from '../configs/firebase.config';
+import { useDispatch } from 'react-redux'
+import { setBusiness } from '../redux/firestore/businesses/businesses.actions'
+import { useHistory } from "react-router-dom";
+
+
 
 const RegisterScreen = () => {
+
+    const history = useHistory();
+    const dispatch = useDispatch();
 
     const [name, setName] = useState('')
     const [email, setEmail] = useState('')
@@ -15,17 +23,34 @@ const RegisterScreen = () => {
     const [category, setCategory] = useState('')
     const [products, setProducts] = useState('')
     const [description, setDescription] = useState('')
-    const [image, setImage] = useState('')
-
-
-
+    const [image,setImage]=useState(null)
     const uploadFileHandler = async (e) => {
-
+        
     }
-
-    const submitHandler = (e) => {
+    
+    const submitHandler = async (e) => {
         e.preventDefault()
-
+        if(password !== confirmPassword)return;
+        try{
+            await auth.createUserWithEmailAndPassword(email, password);
+            dispatch(setBusiness({
+                name,
+                contactNumber,
+                address,
+                category,
+                products,
+                description,
+                image,
+                email,
+                isApproved: false
+            }));
+        }catch(err){
+            console.log(err.message);
+        } 
+        setEmail('');
+        setPassword('');
+        setConfirmPassword('');
+        history.push('/');
     }
 
     return (
@@ -154,4 +179,4 @@ const RegisterScreen = () => {
     )
 }
 
-export default RegisterScreen
+export default RegisterScreen;

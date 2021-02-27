@@ -3,15 +3,23 @@ import { useState } from 'react'
 import { Link } from 'react-router-dom'
 import { Form, Button, Row, Col } from 'react-bootstrap'
 import FormContainer from '../components/FormContainer'
+import { auth } from '../configs/firebase.config';
+import { useHistory } from "react-router-dom";
 
 const LoginScreen = () => {
-
+    const history = useHistory();
     const [email, setEmail] = useState('')
     const [password, setPassword] = useState('')
 
-    const submitHandler = (e) => {
+    const submitHandler = async (e) => {
         e.preventDefault();
         console.log(email+" "+password);
+       try{ 
+        await auth.signInWithEmailAndPassword(email, password);
+        history.push('/');
+       }catch(err){
+           console.log(err);
+       }
     }
 
     return (

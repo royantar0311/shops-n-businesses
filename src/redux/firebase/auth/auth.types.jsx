@@ -1,0 +1,8 @@
+const authTypes = {
+    SET_CURRENT_USER: 'SET_CURRENT_USER',
+    CLEAR_CURRENT_USER: 'CLEAR_CURRENT_USER',
+    GET_IS_ADMIN: 'GET_IS_ADMIN',
+    CLEAR_ADMIN: 'CLEAR_ADMIN'
+}
+
+export default authTypes;
