@@ -5,6 +5,8 @@ import Footer from './components/Footer'
 import HomeScreen from './screens/HomeScreen'
 import BusinessScreen from './screens/BusinessScreen'
 import BusinessDetailsScreen from './screens/BusinessDetailsScreen'
+import LoginScreen from './screens/LoginScreen'
+import RegisterScreen from './screens/RegisterScreen'
 import { BrowserRouter as Router, Route } from 'react-router-dom'
 import { useDispatch } from 'react-redux';
 import { fetchCategories } from './redux/firestore/categories/categories.actions'
@@ -25,6 +27,8 @@ const App = () => {
           <Route path='/' component={HomeScreen} exact />
           <Route path='/business/:categoryUid' component={BusinessScreen} />
           <Route path='/businessdetails/:businessUid' component={BusinessDetailsScreen} />
+          <Route path='/login' component={LoginScreen} />
+          <Route path='/register' component={RegisterScreen} />
         </Container>
       </main>
       <Footer />
