@@ -15,18 +15,18 @@ const RegisterScreen = () => {
     const [category, setCategory] = useState('')
     const [products, setProducts] = useState('')
     const [description, setDescription] = useState('')
-    const [image,setImage]=useState('')
+    const [image, setImage] = useState('')
 
 
 
     const uploadFileHandler = async (e) => {
-      
-      }
-    
-      const submitHandler = (e) => {
+
+    }
+
+    const submitHandler = (e) => {
         e.preventDefault()
-        
-      }
+
+    }
 
     return (
         <FormContainer>
@@ -55,7 +55,7 @@ const RegisterScreen = () => {
                 <Form.Group controlId='contactNumber'>
                     <Form.Label>Contact Number</Form.Label>
                     <Form.Control
-                        type='number'
+                        type='text'
                         placeholder='Enter Contact Number'
                         value={contactNumber}
                         onChange={(e) => setContactNumber(e.target.value)}
@@ -149,7 +149,7 @@ const RegisterScreen = () => {
         </Button>
             </Form>
 
-            
+
         </FormContainer>
     )
 }
