@@ -51,7 +51,6 @@ const RegisterScreen = () => {
         setPassword('');
         setConfirmPassword('');
         history.push('/');
-
     }
 
     return (
@@ -81,7 +80,7 @@ const RegisterScreen = () => {
                 <Form.Group controlId='contactNumber'>
                     <Form.Label>Contact Number</Form.Label>
                     <Form.Control
-                        type='number'
+                        type='text'
                         placeholder='Enter Contact Number'
                         value={contactNumber}
                         onChange={(e) => setContactNumber(e.target.value)}
@@ -175,11 +174,9 @@ const RegisterScreen = () => {
         </Button>
             </Form>
 
-            
+
         </FormContainer>
     )
 }
-// const mapStateToProps = (state) => ({
-//     user: state.auth.currentUser
-// })
+
 export default RegisterScreen;

@@ -7,7 +7,11 @@ const businesses = [
             'I am business 01',
         category: '1',
         conatct: "+880123456789",
-        products:"car,truck,CNG",
+        products: "car,truck,CNG",
+        email: "abc@abc.com",
+        address: "Marion, US",
+        isApproved: false,
+
 
     },
     {
@@ -18,7 +22,10 @@ const businesses = [
             'I am business 02',
         category: '1',
         conatct: "+880123456789",
-        products:"car,truck,CNG",
+        products: "car,truck,CNG",
+        email: "abc@abc.com",
+        address: "Marion, US",
+        isApproved: true,
 
     },
     {
@@ -29,7 +36,10 @@ const businesses = [
             'I am business 01',
         category: '2',
         conatct: "+880123456789",
-        products:"car,truck,CNG",
+        products: "car,truck,CNG",
+        email: "abc@abc.com",
+        address: "Marion, US",
+        isApproved: true,
 
     },
     {
@@ -40,7 +50,10 @@ const businesses = [
             'I am business 01',
         category: '2',
         conatct: "+880123456789",
-        products:"car,truck,CNG",
+        products: "car,truck,CNG",
+        email: "abc@abc.com",
+        address: "Marion, US",
+        isApproved: true,
 
     },
     {
@@ -51,7 +64,10 @@ const businesses = [
             'I am business 01',
         category: '1',
         conatct: "+880123456789",
-        products:"car,truck,CNG",
+        products: "car,truck,CNG",
+        email: "abc@abc.com",
+        address: "Marion, US",
+        isApproved: false,
 
     },
     {
@@ -62,7 +78,10 @@ const businesses = [
             'I am business 01',
         category: '2',
         conatct: "+880123456789",
-        products:"car,truck,CNG",
+        products: "car,truck,CNG",
+        email: "abc@abc.com",
+        address: "Marion, US",
+        isApproved: false,
 
     },
 
