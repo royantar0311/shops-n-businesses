@@ -17,6 +17,8 @@ import { fetchCategories } from './redux/firestore/categories/categories.actions
 import { fetchBusinesses } from './redux/firestore/businesses/businesses.actions' 
 import { setCurrentUser, clearCurrentUser, getIsAdmin, clearAdmin } from './redux/firebase/auth/auth.actions'
 import { auth } from './configs/firebase.config'
+
+
 const App = () => {
   const dispatch = useDispatch();
   useEffect(() => {

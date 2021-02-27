@@ -1,7 +1,6 @@
 // all the action creators like a function that sets the current user
 import { auth, db } from '../../../configs/firebase.config';
 import authTypes from './auth.types';
-
 export const setCurrentUser = (user) => async (dispatch) => {
    
     dispatch ({
@@ -10,12 +9,15 @@ export const setCurrentUser = (user) => async (dispatch) => {
     })
 } 
 export const getIsAdmin = () => async (dispatch) => {
+    dispatch ({
+        type: authTypes.GET_IS_ADMIN,
+        payload: 'loading'
+    })
     let isAdmin = false;
     try{
         const doc = await db.collection('admins').doc(auth.currentUser.uid).get();
         if(doc.exists && doc.data()){
             isAdmin = doc.data().isAdmin;
-            console.log(doc.data());
         }
         
     }catch(err){
@@ -23,7 +25,7 @@ export const getIsAdmin = () => async (dispatch) => {
     }
     dispatch ({
         type: authTypes.GET_IS_ADMIN,
-        payload: isAdmin
+        payload: isAdmin===true?'true':'false'
     })
 }
 export const clearCurrentUser = () => {

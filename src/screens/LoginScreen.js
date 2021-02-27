@@ -5,9 +5,11 @@ import { Form, Button, Row, Col } from 'react-bootstrap'
 import FormContainer from '../components/FormContainer'
 import { auth } from '../configs/firebase.config';
 import { useHistory } from "react-router-dom";
-
-const LoginScreen = () => {
+import { connect } from 'react-redux'
+const LoginScreen = ({isAdmin, user}) => {
     const history = useHistory();
+
+
     const [email, setEmail] = useState('')
     const [password, setPassword] = useState('')
 
@@ -21,7 +23,6 @@ const LoginScreen = () => {
            console.log(err);
        }
     }
-
     return (
         <FormContainer>
             <h1> Sign In</h1>
@@ -62,5 +63,8 @@ const LoginScreen = () => {
         </FormContainer>
     )
 }
-
-export default LoginScreen
+const mapStateToProps = (state) => ({
+    isAdmin: state.auth.isAdmin,
+    user: state.auth.currentUser
+  })
+export default connect(mapStateToProps)(LoginScreen);

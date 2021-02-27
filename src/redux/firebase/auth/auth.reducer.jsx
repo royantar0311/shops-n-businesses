@@ -2,7 +2,7 @@ import authTypes from './auth.types'
 
 const initialState = {
     currentUser: null,
-    isAdmin: false
+    isAdmin: 'false'
 }
 
 
@@ -27,7 +27,7 @@ const authReducer = (state = initialState, action) => {
         case authTypes.CLEAR_ADMIN:
             return {
                 ...state,
-                isAdmin: false
+                isAdmin: 'false'
             }
         default:
             return state;

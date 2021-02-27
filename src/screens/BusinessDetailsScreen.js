@@ -1,12 +1,12 @@
 import React from 'react'
 import { Link } from 'react-router-dom'
-import { Row, Col, Image, ListGroup } from 'react-bootstrap'
+import { Row, Col, Image, ListGroup, Button } from 'react-bootstrap'
 import { connect } from 'react-redux'
+import { auth } from '../configs/firebase.config'
 
 const BusinessDetailsScreen = ({ match, businesses }) => {
 
     const specificBusiness = businesses.find((p) => p.uid === match.params.businessUid)
-
     return (
         <>
             <Link className='btn btn-light my-3' to='/'>
@@ -35,6 +35,12 @@ const BusinessDetailsScreen = ({ match, businesses }) => {
                                 cur
                             ])}
                         </ListGroup.Item>
+                        {specificBusiness.uid === auth.currentUser.uid? 
+                            // <Button>
+                                <Link to='/'>Edit (design thik koiren vai -_-)</Link>
+                            // </Button> 
+                            : null   
+                    }
                     </ListGroup>
                 </Col>
             </Row>
