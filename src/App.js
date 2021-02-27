@@ -11,20 +11,22 @@ import { BrowserRouter as Router, Route } from 'react-router-dom'
 import { useDispatch } from 'react-redux';
 import { fetchCategories } from './redux/firestore/categories/categories.actions'
 import { fetchBusinesses } from './redux/firestore/businesses/businesses.actions' 
-import { setCurrentUser, clearCurrentUser } from './redux/firebase/auth/auth.actions'
+import { setCurrentUser, clearCurrentUser, getIsAdmin, clearAdmin } from './redux/firebase/auth/auth.actions'
 import { auth } from './configs/firebase.config'
 const App = () => {
   const dispatch = useDispatch();
   useEffect(() => {
+
     dispatch(fetchCategories());
     dispatch(fetchBusinesses())
     let unsubscribeFromAuth = null;
     unsubscribeFromAuth = auth.onAuthStateChanged(user => {
       if(user){
-        console.log('here')
         dispatch(setCurrentUser(user));
+        dispatch(getIsAdmin());
       }else{
         dispatch(clearCurrentUser());
+        dispatch(clearAdmin());
       }
     })
     return () => unsubscribeFromAuth();

@@ -2,13 +2,15 @@ import React from 'react'
 import { Container, Nav, Navbar } from 'react-bootstrap'
 import { LinkContainer } from 'react-router-bootstrap'
 import { connect } from 'react-redux';
+import { useHistory } from 'react-router-dom';
 import { auth } from '../configs/firebase.config';
 const Header = ({user}) => {
-    console.log(user);
+    const history = useHistory();
+
     const handleSignOut = (e) => {
-        console.log('here');
         e.preventDefault();
         auth.signOut();
+        history.push('/login');
     }
     return (
         <header>

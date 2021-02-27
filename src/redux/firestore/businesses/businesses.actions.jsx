@@ -1,4 +1,4 @@
-import { db } from '../../../configs/firebase.config'
+import { db,auth } from '../../../configs/firebase.config'
 import businessesTypes from './businesses.types';
 
 export const fetchBusinesses = () => async (dispatch) => {
@@ -14,6 +14,16 @@ export const fetchBusinesses = () => async (dispatch) => {
             payload: data
         })
     }catch(err){
+        console.log(err);
+    }
+}
+
+export const setBusiness = (data) => async (dispatch) => {
+    try{
+        await db.collection('businesses').doc(auth.currentUser.uid)
+            .set(data);
+    }
+    catch(err){
         console.log(err);
     }
 }

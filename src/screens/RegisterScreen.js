@@ -2,8 +2,17 @@ import React from 'react';
 import { useState } from 'react';
 import { Form, Button } from 'react-bootstrap';
 import FormContainer from '../components/FormContainer';
-import { auth } from '../configs/firebase.config';
+import {  auth } from '../configs/firebase.config';
+import { useDispatch } from 'react-redux'
+import { setBusiness } from '../redux/firestore/businesses/businesses.actions'
+import { useHistory } from "react-router-dom";
+
+
+
 const RegisterScreen = () => {
+
+    const history = useHistory();
+    const dispatch = useDispatch();
 
     const [name, setName] = useState('')
     const [email, setEmail] = useState('')
@@ -14,29 +23,36 @@ const RegisterScreen = () => {
     const [category, setCategory] = useState('')
     const [products, setProducts] = useState('')
     const [description, setDescription] = useState('')
-    const [image,setImage]=useState('')
-
-
-
+    const [image,setImage]=useState(null)
     const uploadFileHandler = async (e) => {
         
-      }
+    }
     
-      const submitHandler = async (e) => {
+    const submitHandler = async (e) => {
         e.preventDefault()
         if(password !== confirmPassword)return;
         try{
-            const response = await auth.createUserWithEmailAndPassword(email, password);
-            
-            console.log(response);
+            await auth.createUserWithEmailAndPassword(email, password);
+            dispatch(setBusiness({
+                name,
+                contactNumber,
+                address,
+                category,
+                products,
+                description,
+                image,
+                email,
+                isApproved: false
+            }));
         }catch(err){
-            console.log(err);
+            console.log(err.message);
         } 
         setEmail('');
         setPassword('');
         setConfirmPassword('');
-        
-      }
+        history.push('/');
+
+    }
 
     return (
         <FormContainer>
@@ -163,5 +179,7 @@ const RegisterScreen = () => {
         </FormContainer>
     )
 }
-
-export default RegisterScreen
+// const mapStateToProps = (state) => ({
+//     user: state.auth.currentUser
+// })
+export default RegisterScreen;
