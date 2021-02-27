@@ -1,14 +1,11 @@
 import React from 'react'
 import { Link } from 'react-router-dom'
-import { Row, Col, Image, ListGroup, Card, Button, ListGroupItem } from 'react-bootstrap'
-import Businesses from '../businesses'
-import Categories from '../categories'
-import Business from '../components/Business'
+import { Row, Col, Image, ListGroup } from 'react-bootstrap'
+import { connect } from 'react-redux'
 
+const BusinessDetailsScreen = ({ match, businesses }) => {
 
-const BusinessDetailsScreen = ({ match }) => {
-
-    const specificBusiness = Businesses.find((p) => p._id === match.params.id)
+    const specificBusiness = businesses.find((p) => p.uid === match.params.businessUid)
 
     return (
         <>
@@ -28,7 +25,7 @@ const BusinessDetailsScreen = ({ match }) => {
                             {specificBusiness.description}
                         </ListGroup.Item>
                         <ListGroup.Item>
-                            {specificBusiness.conatct}
+                            {specificBusiness.contact}
                         </ListGroup.Item>
                         <ListGroup.Item>
                             <p>List of products/services</p>
@@ -45,5 +42,7 @@ const BusinessDetailsScreen = ({ match }) => {
         </>
     )
 }
-
-export default BusinessDetailsScreen
+const mapStateToProps = (state) => ({
+    businesses: state.businesses.businesses
+})
+export default connect(mapStateToProps)(BusinessDetailsScreen);
