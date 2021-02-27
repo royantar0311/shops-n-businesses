@@ -1,14 +1,11 @@
 import React from 'react'
 import { Link } from 'react-router-dom'
-import { Row, Col, Image, ListGroup, Card, Button, ListGroupItem } from 'react-bootstrap'
-import Businesses from '../businesses'
-import Categories from '../categories'
+import { Row, Col, Image, ListGroup } from 'react-bootstrap'
 import Business from '../components/Business'
-
-const BusinessScreen = ({ match }) => {
-    const business = Businesses.filter((p) => p.category === match.params.id)
-    const category =Categories.find((p)=>p._id===match.params.id)
-    console.log(business)
+import { connect } from 'react-redux'
+const BusinessScreen = ({ match, categories, businesses }) => {
+    const business = businesses.filter((p) => p.categoryUid === match.params.categoryUid)
+    const category = categories.find((p)=>p.uid===match.params.categoryUid)
     return (
         <>
           <Link className='btn btn-light my-3' to='/'>
@@ -33,14 +30,16 @@ const BusinessScreen = ({ match }) => {
           <h1>Business</h1>
             <Row>
                 {business.map((busi) => (
-                    <Col key={busi._id} sm={12} md={6} lg={4} xl={3}>
+                    <Col key={busi.uid} sm={12} md={6} lg={4} xl={3}>
                         <Business busi={busi} />
                     </Col>
                 ))}
             </Row>
-
         </>
     )
 }
-
-export default BusinessScreen
+const mapStateToProps = (state)=>({
+    categories: state.categories.categories,
+    businesses: state.businesses.businesses
+})
+export default connect(mapStateToProps)(BusinessScreen);
