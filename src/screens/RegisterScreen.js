@@ -3,13 +3,13 @@ import { useState } from 'react';
 import { Form, Button } from 'react-bootstrap';
 import FormContainer from '../components/FormContainer';
 import {  auth } from '../configs/firebase.config';
-import { useDispatch } from 'react-redux'
+import { useDispatch } from 'react-redux';
 import { fetchBusinesses, setBusiness } from '../redux/firestore/businesses/businesses.actions'
 import { useHistory } from "react-router-dom";
+import { connect } from 'react-redux';
 
 
-
-const RegisterScreen = () => {
+const RegisterScreen = ({categories}) => {
 
     const history = useHistory();
     const dispatch = useDispatch();
@@ -20,7 +20,7 @@ const RegisterScreen = () => {
     const [confirmPassword, setConfirmPassword] = useState('')
     const [contactNumber, setContactNumber] = useState('')
     const [address, setAddress] = useState('')
-    const [category, setCategory] = useState('')
+    const [category, setCategory] = useState('select category')
     const [products, setProducts] = useState('')
     const [description, setDescription] = useState('')
     const [image,setImage]=useState(null)
@@ -108,9 +108,11 @@ const RegisterScreen = () => {
                             console.log("e.target.value", e.target.value);
                             setCategory(e.target.value);
                         }}>
-                        <option value="DICTUM">Dictamen</option>
+                           
+                        {categories.map(e => console.log(e))}
+                        {/* <option value="DICTUM">Dictamen</option>
                         <option value="CONSTANCY">Constancia</option>
-                        <option value="COMPLEMENT">Complemento</option>
+                        <option value="COMPLEMENT">Complemento</option> */}
                     </Form.Control>
                 </Form.Group>
 
@@ -180,5 +182,7 @@ const RegisterScreen = () => {
         </FormContainer>
     )
 }
-
-export default RegisterScreen;
+const mapStateToProps = (state) => ({
+    categories: state.categories.categories,
+})
+export default connect(mapStateToProps)(RegisterScreen);
