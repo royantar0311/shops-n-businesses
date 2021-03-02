@@ -7,9 +7,7 @@ const HomeScreen = ({categories}) => {
         <>
             <h1>Categories</h1>
             <Row>
-            {console.log(categories)}
                 {categories.map((category) => {
-                        console.log(category);
                         return (
                         <Col key={category.uid} sm={12} md={6} lg={4} xl={3}>
                             <Category category={category} />

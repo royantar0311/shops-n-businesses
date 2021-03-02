@@ -1,9 +1,13 @@
 import React from 'react'
 import { useState } from 'react'
-import { Form, Button } from 'react-bootstrap'
+import { Form, Button, Card } from 'react-bootstrap'
 import FormContainer from '../components/FormContainer'
-
+import { useDispatch } from 'react-redux';
+import { addBusiness } from '../redux/firestore/businesses/businesses.actions';
+import { db } from '../configs/firebase.config'
 const UserAddScreen = () => {
+
+    const dispatch = useDispatch();
 
     const [name, setName] = useState("")
     const [contactNumber, setContactNumber] = useState("")
@@ -14,11 +18,33 @@ const UserAddScreen = () => {
     const [image, setImage] = useState("")
 
     const uploadFileHandler = async (e) => {
-
+        let file = e.target.files[0];
+        let fileType = file.type;
+        if( file === undefined || file.size === 0 || 
+            !(fileType === "image/jpg" || fileType === "image/jpeg" || fileType === "image/png")){
+            return;
+        }
+        let reader = new FileReader();
+        reader.onload = () => {
+            setImage(reader.result);
+        }
+        reader.readAsDataURL(file);
     }
 
-    const submitHandler = (e) => {
+    const submitHandler = async (e) => {
         e.preventDefault()
+        let newRef = await db.collection("businesses").doc();
+        console.log(newRef.get);
+        // dispatch(addBusiness({
+        //     name,
+        //     contactNumber,
+        //     address,
+        //     products,
+        //     description,
+        //     category,
+        //     image,
+        //     isApproved: true
+        // }, newRef));
 
     }
 
@@ -68,8 +94,8 @@ const UserAddScreen = () => {
                                 console.log("e.target.value", e.target.value);
                                 setCategory(e.target.value);
                             }}>
-                            <option value="DICTUM">Dictamen</option>
-                            <option value="CONSTANCY">Constancia</option>
+                            <option value="drink">drink</option>
+                            <option value="food">food</option>
                             <option value="COMPLEMENT">Complemento</option>
                         </Form.Control>
                     </Form.Group>
@@ -95,12 +121,7 @@ const UserAddScreen = () => {
 
                     <Form.Group controlId='image'>
                         <Form.Label>Image</Form.Label>
-                        <Form.Control
-                            type='text'
-                            placeholder='Enter image url'
-                            value={image}
-                            onChange={(e) => setImage(e.target.value)}
-                        ></Form.Control>
+                        <Card.Img src={image}></Card.Img>
                         <Form.File
                             id='image-file'
                             label='Choose File'

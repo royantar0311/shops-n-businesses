@@ -15,7 +15,6 @@ const BusinessDetailsScreen = ({ match, businesses }) => {
           </Link>
             <Row>
                 <Col md={6}>
-                    {console.log(specificBusiness.image)}
                     <Image src={specificBusiness.image} alt={specificBusiness.name} fluid />
                 </Col>
                 <Col md={3}>

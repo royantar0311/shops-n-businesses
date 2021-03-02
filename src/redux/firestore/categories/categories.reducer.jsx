@@ -11,6 +11,13 @@ const categoriesReducer = (state = initialState, action) => {
                 ...state,
                 categories: action.payload
             };
+        case categoriesTypes.ADD_CATEGORY:
+            const categories = state.categories;
+            categories.push(action.payload)
+            return {
+                ...state,
+                categories
+            }
         default:
              return state;
     }

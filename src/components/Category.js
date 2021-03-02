@@ -5,12 +5,12 @@ import {Link} from 'react-router-dom'
 const Category = ({ category }) => {
     return (
         <Card className="my-3 p-3 rounded">
-            <Link to={`/business/${category.uid}`}>
+            <Link to={`/business/${category.name}`}>
                 <Card.Img src={category.image} variant='top' />
             </Link>
 
             <Card.Body>
-                <Link to={`/business/${category.uid}`}>
+                <Link to={`/business/${category.name}`}>
                     <Card.Title as='div'>
                         <strong>
                             {category.name}

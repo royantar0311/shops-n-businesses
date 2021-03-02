@@ -1,6 +1,6 @@
 import React from 'react';
 import { useState } from 'react';
-import { Form, Button } from 'react-bootstrap';
+import { Form, Button, Card } from 'react-bootstrap';
 import FormContainer from '../components/FormContainer';
 import {  auth } from '../configs/firebase.config';
 import { useDispatch } from 'react-redux';
@@ -20,15 +20,13 @@ const RegisterScreen = ({categories}) => {
     const [confirmPassword, setConfirmPassword] = useState('')
     const [contactNumber, setContactNumber] = useState('')
     const [address, setAddress] = useState('')
-    const [categoryUid, setCategoryUid] = useState('')
-    const [categoryName, setCategoryName] = useState('select category')
+    const [category, setCategory] = useState('select category')
 
     const [products, setProducts] = useState('')
     const [description, setDescription] = useState('')
     const [image,setImage]=useState(null)
-    const [fileName, setFileName] = useState('No Images Selected');
     const uploadFileHandler = async (e) => {
-        console.log(e.target.value);
+
         let file = e.target.files[0];
         let fileType = file.type;
         if( file === undefined || file.size === 0 || 
@@ -36,10 +34,8 @@ const RegisterScreen = ({categories}) => {
             return;
         }
         let reader = new FileReader();
-        setFileName('image loading...');
         reader.onload = () => {
             setImage(reader.result);
-            setFileName(file.name);
         }
         reader.readAsDataURL(file);
     }
@@ -54,9 +50,9 @@ const RegisterScreen = ({categories}) => {
                 name,
                 contactNumber,
                 address,
-                categoryUid,
                 products,
                 description,
+                category,
                 image,
                 email,
                 uid: auth.currentUser.uid,
@@ -69,6 +65,9 @@ const RegisterScreen = ({categories}) => {
         setEmail('');
         setPassword('');
         setConfirmPassword('');
+        setContactNumber('');
+        setDescription('');
+        
         history.push('/');
     }
 
@@ -120,18 +119,11 @@ const RegisterScreen = ({categories}) => {
                     <Form.Label>Select category</Form.Label>
                     <Form.Control
                         as="select"
-                        value = {categoryName}
-                        onChange={e => {
-                            console.log(e.target.value)
-                            setCategoryUid(e.target.value);
-                            const { name } = categories.find(element => element.uid === e.target.value);
-                            console.log(name);
-                            if(name !== undefined)setCategoryName(name);
-                            else setCategoryName('select category')
-                        }}>
+                        value = {category}
+                        onChange={e => setCategory(e.target.value)}>
                            
-                        <option value="ixK3hXK2uoHp6RomRX1N">Drink</option>
-                        <option value="wSxI9A4XMA6UbETiy4cU">Food</option>
+                        <option value="Drink">Drink</option>
+                        <option value="Food">Food</option>
                     </Form.Control>
                 </Form.Group>
 
@@ -156,12 +148,7 @@ const RegisterScreen = ({categories}) => {
 
                 <Form.Group controlId='image'>
                     <Form.Label>Image</Form.Label>
-                    <Form.Control
-                        type='text'
-                        placeholder={fileName}
-                        disabled
-                        value={fileName}
-                    ></Form.Control>
+                    <Card.Img src={image} variant='top' />
                     <Form.File
                         id='image-file'
                         label='Choose File'

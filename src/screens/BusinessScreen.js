@@ -4,8 +4,8 @@ import { Row, Col, Image, ListGroup } from 'react-bootstrap'
 import Business from '../components/Business'
 import { connect } from 'react-redux'
 const BusinessScreen = ({ match, categories, businesses }) => {
-    const business = businesses.filter((p) => p.categoryUid === match.params.categoryUid)
-    const category = categories.find((p)=>p.uid===match.params.categoryUid)
+    const business = businesses.filter((p) => p.category === match.params.category)
+    const category = categories.find((p)=>p.name===match.params.category)
     return (
         <>
           <Link className='btn btn-light my-3' to='/'>
@@ -13,7 +13,7 @@ const BusinessScreen = ({ match, categories, businesses }) => {
           </Link>
           <Row>
               <Col md={6}>
-                  <Image src={category.image} alt={category.name} fluid/>
+                  <Image src={category?.image} alt={category.name} fluid/>
               </Col>
               <Col md={3}>
                   <ListGroup variant="flush">
@@ -29,11 +29,12 @@ const BusinessScreen = ({ match, categories, businesses }) => {
 
           <h1>Business</h1>
             <Row>
-                {business.map((busi) => (
-                    <Col key={busi.uid} sm={12} md={6} lg={4} xl={3}>
+                {business.map((busi) => {
+                    if(busi.isApproved === false)return null;
+                    return (<Col key={busi.uid} sm={12} md={6} lg={4} xl={3}>
                         <Business busi={busi} />
-                    </Col>
-                ))}
+                    </Col>)
+                })}
             </Row>
         </>
     )

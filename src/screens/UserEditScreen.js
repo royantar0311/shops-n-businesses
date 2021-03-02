@@ -1,28 +1,59 @@
-import React from 'react'
-import users from '../businesses'
+import React,{ useEffect } from 'react'
 import { useState } from 'react'
-import { Form, Button } from 'react-bootstrap'
+import { Form, Button, Image } from 'react-bootstrap'
 import FormContainer from '../components/FormContainer'
+import { useHistory } from 'react-router-dom';
+import { connect, useDispatch } from 'react-redux';
+import { setBusiness, fetchBusinesses } from '../redux/firestore/businesses/businesses.actions';
 
-const UserEditScreen = ({ match }) => {
-    const user = users.find((p) => p._id === match.params.id)
 
-    const [name, setName] = useState(user.name)
-    const [contactNumber, setContactNumber] = useState(user.conatct)
-    const [address, setAddress] = useState(user.address)
-    const [category, setCategory] = useState(user.category)
-    const [products, setProducts] = useState(user.products)
-    const [description, setDescription] = useState(user.description)
-    const [image, setImage] = useState(user.image)
+const UserEditScreen = ({ match, isAdmin, businesses, categories }) => {
 
+    const history = useHistory();
+    const dispatch = useDispatch();
+
+    const business = businesses.find((p) => p.uid === match.params.id)
+
+    const [name, setName] = useState(business.name)
+    const [contactNumber, setContactNumber] = useState(business.contactNumber)
+    const [address, setAddress] = useState(business.address)
+    const [category, setCategory] = useState(business.category)
+    const [products, setProducts] = useState(business.products)
+    const [description, setDescription] = useState(business.description)
+    const [image, setImage] = useState(business.image)
+    const [isApproved, setIsApproved] = useState(business.isApproved);
     const uploadFileHandler = async (e) => {
-
+        let file = e.target.files[0];
+        let fileType = file.type;
+        if( file === undefined || file.size === 0 || 
+            !(fileType === "image/jpg" || fileType === "image/jpeg" || fileType === "image/png")){
+            return;
+        }
+        let reader = new FileReader();
+        reader.onload = () => {
+            setImage(reader.result);
+        }
+        reader.readAsDataURL(file);
     }
 
     const submitHandler = (e) => {
         e.preventDefault()
-
+        dispatch(setBusiness({
+            name,
+            contactNumber,
+            address,
+            products,
+            category,
+            description,
+            image,
+            uid: business.uid,
+            isApproved: true
+        }));
+        dispatch(fetchBusinesses());
     }
+    useEffect(() => {
+        if(isAdmin === 'false')history.push('/');
+    }, [isAdmin,history])
 
     return (
         <>
@@ -67,7 +98,6 @@ const UserEditScreen = ({ match }) => {
                             as="select"
                             value={category}
                             onChange={e => {
-                                console.log("e.target.value", e.target.value);
                                 setCategory(e.target.value);
                             }}>
                             <option value="DICTUM">Dictamen</option>
@@ -96,13 +126,13 @@ const UserEditScreen = ({ match }) => {
                     </Form.Group>
 
                     <Form.Group controlId='image'>
-                        <Form.Label>Image</Form.Label>
-                        <Form.Control
+                        <Image src={business.image} alt={business.name} fluid />
+                        {/* <Form.Control
                             type='text'
                             placeholder='Enter image url'
                             value={image}
                             onChange={(e) => setImage(e.target.value)}
-                        ></Form.Control>
+                        ></Form.Control> */}
                         <Form.File
                             id='image-file'
                             label='Choose File'
@@ -110,10 +140,14 @@ const UserEditScreen = ({ match }) => {
                             onChange={uploadFileHandler}
                         ></Form.File>
                     </Form.Group>
-
-                    <Button type='submit' variant='primary'>
-                        Approve
-        </Button>
+                    {isApproved === false ?
+                        <Button type='submit' variant='primary'>
+                            Approve
+                        </Button> 
+                        :
+                        null
+                    }
+                    
                 </Form>
 
 
@@ -123,4 +157,10 @@ const UserEditScreen = ({ match }) => {
     )
 }
 
-export default UserEditScreen
+const mapStateToProps = (state) => ({
+    isAdmin: state.auth.isAdmin,
+    businesses: state.businesses.businesses,
+    categories: state.categories.categories
+})
+export default connect(mapStateToProps)(UserEditScreen);
+

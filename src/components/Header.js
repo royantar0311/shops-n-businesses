@@ -2,7 +2,7 @@ import React from 'react'
 import { Container, Nav, Navbar } from 'react-bootstrap'
 import { LinkContainer } from 'react-router-bootstrap'
 import { connect } from 'react-redux';
-import { useHistory, Link } from 'react-router-dom';
+import { useHistory } from 'react-router-dom';
 import { auth } from '../configs/firebase.config';
 const Header = ({ user, isAdmin }) => {
     const history = useHistory();
@@ -47,17 +47,6 @@ const Header = ({ user, isAdmin }) => {
                                             <i className="fas fa-user fa-fw"></i>
                                         Sign out
                                     </Nav.Link>
-                                        {/* {user && user != null && isAdmin === true ?  
-                                           <Nav.Link to='/admin/userlist'>
-                                                <i className="fas fa-user"></i>
-                                                Admin Panel
-                                            </Nav.Link>   
-                                            :  
-                                            <Nav.Link to={`/businessdetails/:${auth.currentUser.uid}`}>
-                                            <i className="fas fa-user"></i>
-                                            Edit Business
-                                            </Nav.Link>              
-                                    } */}
                                     </>
                                     :
                                     <LinkContainer to='/login'>

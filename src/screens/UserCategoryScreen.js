@@ -1,22 +1,47 @@
-import React from 'react'
+import React, { useEffect } from 'react'
 import { useState } from 'react'
-import { Form, Button } from 'react-bootstrap'
+import { Form, Button, Card } from 'react-bootstrap'
 import FormContainer from '../components/FormContainer'
+import { connect, useDispatch } from 'react-redux';
+import { useHistory } from 'react-router-dom';
+import { addCategory,fetchCategories } from '../redux/firestore/categories/categories.actions';
 
-const UserCategoryScreen = () => {
+const UserCategoryScreen = ({isAdmin}) => {
+    const dispatch = useDispatch();
+    const history = useHistory();
 
     const [categoryName, setCategoryName] = useState('')
     const [description, setDescription] = useState('')
     const [image, setImage] = useState('')
 
     const uploadFileHandler = async (e) => {
-
+        let file = e.target.files[0];
+        let fileType = file.type;
+        if( file === undefined || file.size === 0 || 
+            !(fileType === "image/jpg" || fileType === "image/jpeg" || fileType === "image/png")){
+            return;
+        }
+        let reader = new FileReader();
+        reader.onload = () => {
+            setImage(reader.result);
+        }
+        reader.readAsDataURL(file);
     }
 
     const submitHandler = (e) => {
+        console.log('jacche');
         e.preventDefault()
-
+        dispatch(addCategory({
+            description,
+            image,
+            name: categoryName
+        }));
+        dispatch(fetchCategories());
+        history.push('/admin/userlist');
     }
+    useEffect(() => {
+        if(isAdmin === 'false')history.push('/');
+    }, [isAdmin,history])
 
     return (
         <>
@@ -46,12 +71,7 @@ const UserCategoryScreen = () => {
 
                     <Form.Group controlId='image'>
                         <Form.Label>Image</Form.Label>
-                        <Form.Control
-                            type='text'
-                            placeholder='Enter image url'
-                            value={image}
-                            onChange={(e) => setImage(e.target.value)}
-                        ></Form.Control>
+                        <Card.Img src = {image} ></Card.Img>
                         <Form.File
                             id='image-file'
                             label='Choose File'
@@ -71,5 +91,7 @@ const UserCategoryScreen = () => {
         </>
     )
 }
-
-export default UserCategoryScreen
+const mapStateToProps = (state) => ({
+    isAdmin: state.auth.isAdmin
+})
+export default connect(mapStateToProps)(UserCategoryScreen);
