@@ -2,9 +2,9 @@ import React from 'react'
 import { Container, Nav, Navbar } from 'react-bootstrap'
 import { LinkContainer } from 'react-router-bootstrap'
 import { connect } from 'react-redux';
-import { useHistory,Link } from 'react-router-dom';
+import { useHistory, Link } from 'react-router-dom';
 import { auth } from '../configs/firebase.config';
-const Header = ({user, isAdmin}) => {
+const Header = ({ user, isAdmin }) => {
     const history = useHistory();
 
     const handleSignOut = (e) => {
@@ -23,13 +23,31 @@ const Header = ({user, isAdmin}) => {
                     <Navbar.Collapse id="basic-navbar-nav">
                         <Nav className="ml-auto">
                             <>
-                             {user && user != null? 
-                                <>
-                                    <Nav.Link to='/' onClick={(e) => handleSignOut(e)}>
-                                        <i className="fas fa-user"></i>
+                                {user && user != null && isAdmin !== 'loading' ?
+                                    isAdmin === 'true' ?
+                                        <LinkContainer to='/admin/userlist'>
+                                            <Nav.Link>
+                                                <i className="fas fa-user-cog fa-fw"></i>
+                                                    Admin Panel
+                                        </Nav.Link>
+                                        </LinkContainer>
+                                        :
+                                        <LinkContainer to={`/businessdetails/${auth.currentUser.uid}`}>
+                                            <Nav.Link>
+                                                <i className="fas fa-user-edit fa-fw"></i>
+                                                Edit Business
+                                        </Nav.Link>
+                                        </LinkContainer>
+
+                                    : null
+                                }
+                                {user && user != null ?
+                                    <>
+                                        <Nav.Link to='/' onClick={(e) => handleSignOut(e)}>
+                                            <i className="fas fa-user fa-fw"></i>
                                         Sign out
                                     </Nav.Link>
-                                    {/* {user && user != null && isAdmin === true ?  
+                                        {/* {user && user != null && isAdmin === true ?  
                                            <Nav.Link to='/admin/userlist'>
                                                 <i className="fas fa-user"></i>
                                                 Admin Panel
@@ -40,33 +58,16 @@ const Header = ({user, isAdmin}) => {
                                             Edit Business
                                             </Nav.Link>              
                                     } */}
-                                </>
-                            : 
-                                <LinkContainer to='/login'>
-                                    <Nav.Link >
-                                        <i className="fas fa-user"></i>
+                                    </>
+                                    :
+                                    <LinkContainer to='/login'>
+                                        <Nav.Link >
+                                            <i className="fas fa-user fa-fw"></i>
                                     Sign In
                                     </Nav.Link>
-                            </LinkContainer>
-                            }
-                            {user && user != null && isAdmin !== 'loading' ?
-                                  isAdmin === 'true' ?  
-                                             <Nav.Link>
-                                            <Link to='/admin/userlist'>
-                                                    <i className="fas fa-user"></i>
-                                                    Admin Panel
-                                                </Link>   
-                                            </Nav.Link>
-                                            :  
-                                            <Nav.Link>
-                                                <Link to={`/businessdetails/${auth.currentUser.uid}`}>
-                                                <i className="fas fa-user"></i>
-                                                Edit Business
-                                                </Link>      
-                                            </Nav.Link>        
-                                     
-                                : null
-                            }
+                                    </LinkContainer>
+                                }
+
                             </>
                         </Nav>
                     </Navbar.Collapse>
@@ -78,5 +79,5 @@ const Header = ({user, isAdmin}) => {
 const mapStateToProps = (state) => ({
     user: state.auth.currentUser,
     isAdmin: state.auth.isAdmin
-}) 
+})
 export default connect(mapStateToProps)(Header);
