@@ -20,24 +20,41 @@ const RegisterScreen = ({categories}) => {
     const [confirmPassword, setConfirmPassword] = useState('')
     const [contactNumber, setContactNumber] = useState('')
     const [address, setAddress] = useState('')
-    const [category, setCategory] = useState('select category')
+    const [categoryUid, setCategoryUid] = useState('')
+    const [categoryName, setCategoryName] = useState('select category')
+
     const [products, setProducts] = useState('')
     const [description, setDescription] = useState('')
     const [image,setImage]=useState(null)
+    const [fileName, setFileName] = useState('No Images Selected');
     const uploadFileHandler = async (e) => {
-        
+        console.log(e.target.value);
+        let file = e.target.files[0];
+        let fileType = file.type;
+        if( file === undefined || file.size === 0 || 
+            !(fileType === "image/jpg" || fileType === "image/jpeg" || fileType === "image/png")){
+            return;
+        }
+        let reader = new FileReader();
+        setFileName('image loading...');
+        reader.onload = () => {
+            setImage(reader.result);
+            setFileName(file.name);
+        }
+        reader.readAsDataURL(file);
     }
     
     const submitHandler = async (e) => {
         e.preventDefault()
         if(password !== confirmPassword)return;
+
         try{
             await auth.createUserWithEmailAndPassword(email, password);
             dispatch(setBusiness({
                 name,
                 contactNumber,
                 address,
-                category,
+                categoryUid,
                 products,
                 description,
                 image,
@@ -103,16 +120,18 @@ const RegisterScreen = ({categories}) => {
                     <Form.Label>Select category</Form.Label>
                     <Form.Control
                         as="select"
-                        value={category}
+                        value = {categoryName}
                         onChange={e => {
-                            console.log("e.target.value", e.target.value);
-                            setCategory(e.target.value);
+                            console.log(e.target.value)
+                            setCategoryUid(e.target.value);
+                            const { name } = categories.find(element => element.uid === e.target.value);
+                            console.log(name);
+                            if(name !== undefined)setCategoryName(name);
+                            else setCategoryName('select category')
                         }}>
                            
-                        {categories.map(e => console.log(e))}
-                        {/* <option value="DICTUM">Dictamen</option>
-                        <option value="CONSTANCY">Constancia</option>
-                        <option value="COMPLEMENT">Complemento</option> */}
+                        <option value="ixK3hXK2uoHp6RomRX1N">Drink</option>
+                        <option value="wSxI9A4XMA6UbETiy4cU">Food</option>
                     </Form.Control>
                 </Form.Group>
 
@@ -139,9 +158,9 @@ const RegisterScreen = ({categories}) => {
                     <Form.Label>Image</Form.Label>
                     <Form.Control
                         type='text'
-                        placeholder='Enter image url'
-                        value={image}
-                        onChange={(e) => setImage(e.target.value)}
+                        placeholder={fileName}
+                        disabled
+                        value={fileName}
                     ></Form.Control>
                     <Form.File
                         id='image-file'
