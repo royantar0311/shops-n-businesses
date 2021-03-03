@@ -437,6 +437,7 @@ mark {
 .img-fluid {
   max-width: 100%;
   height: auto;
+  
 }
 .img-thumbnail {
   padding: 0.25rem;
@@ -1921,10 +1922,14 @@ pre code {
   border: 0 solid #ced4da;
   border-radius: 0;
   transition: border-color 0.15s ease-in-out, box-shadow 0.15s ease-in-out;
+  text-align: right;
+  
 }
 @media (prefers-reduced-motion: reduce) {
   .form-control {
     transition: none;
+    text-align: right;
+    
   }
 }
 .form-control::-ms-expand {
@@ -1990,18 +1995,21 @@ select.form-control:focus::-ms-value {
   margin-bottom: 0;
   font-size: inherit;
   line-height: 1.5;
+  text-align: right;
 }
 .col-form-label-lg {
   padding-top: 2rem;
   padding-bottom: 2rem;
   font-size: 1.09375rem;
   line-height: 1.5;
+  text-align: right;
 }
 .col-form-label-sm {
   padding-top: 0.5rem;
   padding-bottom: 0.5rem;
   font-size: 0.765625rem;
   line-height: 1.5;
+  text-align: right;
 }
 .form-control-plaintext {
   display: block;
@@ -2045,6 +2053,7 @@ textarea.form-control {
 .form-text {
   display: block;
   margin-top: 0.25rem;
+  text-align: right;
 }
 .form-row {
   display: -ms-flexbox;
@@ -3963,6 +3972,7 @@ input[type="submit"].btn-block {
   -ms-flex-pack: justify;
   justify-content: space-between;
   padding: 1.5rem 1rem;
+  
 }
 .navbar .container,
 .navbar .container-fluid,
@@ -4013,6 +4023,7 @@ input[type="submit"].btn-block {
   display: inline-block;
   padding-top: 0.5rem;
   padding-bottom: 0.5rem;
+  
 }
 .navbar-collapse {
   -ms-flex-preferred-size: 100%;
@@ -4021,6 +4032,7 @@ input[type="submit"].btn-block {
   flex-grow: 1;
   -ms-flex-align: center;
   align-items: center;
+  
 }
 .navbar-toggler {
   padding: 0.25rem 0.75rem;
@@ -4384,7 +4396,7 @@ input[type="submit"].btn-block {
   flex-direction: column;
   min-width: 0;
   word-wrap: break-word;
-  background-color: #97b020;
+  background-color:#fff;
   background-clip: border-box;
   border: 1px solid rgba(0, 0, 0, 0.125);
 }

@@ -13,7 +13,7 @@ const Category = ({ category }) => {
                 <Link to={`/business/${category.name}`}>
                     <Card.Title as='div'>
                         <strong>
-                            {category.name}
+                           <p><b>{category.name}</b></p>
                         </strong>
                     </Card.Title>
                 </Link>

@@ -6,7 +6,7 @@ const HomeScreen = ({categories}) => {
     return (
         <>
             <h1>Categories</h1>
-            <Row>
+            <Row className="text-right">
                 {categories.map((category) => {
                         return (
                         <Col key={category.uid} sm={12} md={6} lg={4} xl={3}>

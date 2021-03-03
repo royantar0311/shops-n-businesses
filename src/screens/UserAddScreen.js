@@ -2,10 +2,10 @@ import React from 'react'
 import { useState } from 'react'
 import { Form, Button, Card } from 'react-bootstrap'
 import FormContainer from '../components/FormContainer'
-import { useDispatch } from 'react-redux';
+import { useDispatch, connect } from 'react-redux';
 import { addBusiness } from '../redux/firestore/businesses/businesses.actions';
 import { db } from '../configs/firebase.config'
-const UserAddScreen = () => {
+const UserAddScreen = ({ categories }) => {
 
     const dispatch = useDispatch();
 
@@ -20,8 +20,8 @@ const UserAddScreen = () => {
     const uploadFileHandler = async (e) => {
         let file = e.target.files[0];
         let fileType = file.type;
-        if( file === undefined || file.size === 0 || 
-            !(fileType === "image/jpg" || fileType === "image/jpeg" || fileType === "image/png")){
+        if (file === undefined || file.size === 0 ||
+            !(fileType === "image/jpg" || fileType === "image/jpeg" || fileType === "image/png")) {
             return;
         }
         let reader = new FileReader();
@@ -52,7 +52,7 @@ const UserAddScreen = () => {
         <>
             <FormContainer>
                 <h1>Add Business</h1>
-                <Form onSubmit={submitHandler}>
+                <Form onSubmit={submitHandler} className="text-right">
                     <Form.Group controlId='name'>
                         <Form.Label>Business Name</Form.Label>
                         <Form.Control
@@ -94,9 +94,15 @@ const UserAddScreen = () => {
                                 console.log("e.target.value", e.target.value);
                                 setCategory(e.target.value);
                             }}>
-                            <option value="drink">drink</option>
-                            <option value="food">food</option>
-                            <option value="COMPLEMENT">Complemento</option>
+                            <option value="" selected>
+                                --Select Category--
+          </option>
+          {console.log(categories)}
+                            {categories.map(
+                                (cat) => (
+                                    <option value={cat.name}>{cat.name}</option>
+                                )
+                            )}
                         </Form.Control>
                     </Form.Group>
 
@@ -124,7 +130,7 @@ const UserAddScreen = () => {
                         <Card.Img src={image}></Card.Img>
                         <Form.File
                             id='image-file'
-                            label='Choose File'
+                            label=''
                             custom
                             onChange={uploadFileHandler}
                         ></Form.File>
@@ -142,4 +148,7 @@ const UserAddScreen = () => {
     )
 }
 
-export default UserAddScreen
+const mapStateToProps = (state) => ({
+    categories: state.categories.categories
+})
+export default connect(mapStateToProps)(UserAddScreen)

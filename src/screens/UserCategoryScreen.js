@@ -47,7 +47,7 @@ const UserCategoryScreen = ({isAdmin}) => {
         <>
             <FormContainer>
                 <h1>Add Category</h1>
-                <Form onSubmit={submitHandler}>
+                <Form onSubmit={submitHandler} className="text-right">
                     <Form.Group controlId='name'>
                         <Form.Label>Category Name</Form.Label>
                         <Form.Control
@@ -74,7 +74,7 @@ const UserCategoryScreen = ({isAdmin}) => {
                         <Card.Img src = {image} ></Card.Img>
                         <Form.File
                             id='image-file'
-                            label='Choose File'
+                            label=''
                             custom
                             onChange={uploadFileHandler}
                         ></Form.File>

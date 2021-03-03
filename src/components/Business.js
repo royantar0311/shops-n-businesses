@@ -13,7 +13,7 @@ const Business = ({ busi }) => {
                 <Link to={`/businessdetails/${busi.uid}`}>
                     <Card.Title as='div'>
                         <strong>
-                            {busi.name}
+                           <p><b>{busi.name}</b></p> 
                         </strong>
                     </Card.Title>
                 </Link>

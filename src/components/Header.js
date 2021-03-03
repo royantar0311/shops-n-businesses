@@ -27,7 +27,7 @@ const Header = ({ user, isAdmin }) => {
                                     isAdmin === 'true' ?
                                         <LinkContainer to='/admin/userlist'>
                                             <Nav.Link>
-                                                <i className="fas fa-user-cog fa-fw"></i>
+                                                <i className="fas fa-user-cog fa-fw "></i>
                                                     Admin Panel
                                         </Nav.Link>
                                         </LinkContainer>

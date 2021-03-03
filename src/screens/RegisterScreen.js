@@ -2,14 +2,14 @@ import React from 'react';
 import { useState } from 'react';
 import { Form, Button, Card } from 'react-bootstrap';
 import FormContainer from '../components/FormContainer';
-import {  auth } from '../configs/firebase.config';
+import { auth } from '../configs/firebase.config';
 import { useDispatch } from 'react-redux';
 import { fetchBusinesses, setBusiness } from '../redux/firestore/businesses/businesses.actions'
 import { useHistory } from "react-router-dom";
 import { connect } from 'react-redux';
 
 
-const RegisterScreen = ({categories}) => {
+const RegisterScreen = ({ categories }) => {
 
     const history = useHistory();
     const dispatch = useDispatch();
@@ -18,19 +18,19 @@ const RegisterScreen = ({categories}) => {
     const [email, setEmail] = useState('')
     const [password, setPassword] = useState('')
     const [confirmPassword, setConfirmPassword] = useState('')
-    const [contactNumber, setContactNumber] = useState('')
+    const [contactNumber, setContactNumber] = useState("")
     const [address, setAddress] = useState('')
-    const [category, setCategory] = useState('select category')
+    const [category, setCategory] = useState('Select category')
 
     const [products, setProducts] = useState('')
     const [description, setDescription] = useState('')
-    const [image,setImage]=useState(null)
+    const [image, setImage] = useState(null)
     const uploadFileHandler = async (e) => {
 
         let file = e.target.files[0];
         let fileType = file.type;
-        if( file === undefined || file.size === 0 || 
-            !(fileType === "image/jpg" || fileType === "image/jpeg" || fileType === "image/png")){
+        if (file === undefined || file.size === 0 ||
+            !(fileType === "image/jpg" || fileType === "image/jpeg" || fileType === "image/png")) {
             return;
         }
         let reader = new FileReader();
@@ -39,12 +39,12 @@ const RegisterScreen = ({categories}) => {
         }
         reader.readAsDataURL(file);
     }
-    
+
     const submitHandler = async (e) => {
         e.preventDefault()
-        if(password !== confirmPassword)return;
+        if (password !== confirmPassword) return;
 
-        try{
+        try {
             await auth.createUserWithEmailAndPassword(email, password);
             dispatch(setBusiness({
                 name,
@@ -59,22 +59,22 @@ const RegisterScreen = ({categories}) => {
                 isApproved: false
             }));
             dispatch(fetchBusinesses());
-        }catch(err){
+        } catch (err) {
             console.log(err.message);
-        } 
+        }
         setEmail('');
         setPassword('');
         setConfirmPassword('');
         setContactNumber('');
         setDescription('');
-        
+
         history.push('/');
     }
 
     return (
         <FormContainer>
             <h1>Sign Up</h1>
-            <Form onSubmit={submitHandler}>
+            <Form onSubmit={submitHandler} className="text-right">
                 <Form.Group controlId='name'>
                     <Form.Label>Business Name</Form.Label>
                     <Form.Control
@@ -119,13 +119,25 @@ const RegisterScreen = ({categories}) => {
                     <Form.Label>Select category</Form.Label>
                     <Form.Control
                         as="select"
-                        value = {category}
+                        value={category}
                         onChange={e => setCategory(e.target.value)}>
-                           
-                        <option value="Drink">Drink</option>
-                        <option value="Food">Food</option>
+
+                        <option value="" selected>
+                            --Select Category--
+          </option>
+                        {categories.map(
+                            (cat) => (
+                                <option value={cat.name}>{cat.name}</option>
+                            )
+                        )}
                     </Form.Control>
                 </Form.Group>
+
+
+
+
+
+
 
                 <Form.Group controlId="products">
                     <Form.Label>Enter product name (Separate product by comma)</Form.Label>
@@ -151,7 +163,7 @@ const RegisterScreen = ({categories}) => {
                     <Card.Img src={image} variant='top' />
                     <Form.File
                         id='image-file'
-                        label='Choose File'
+                        label=''
                         custom
                         onChange={uploadFileHandler}
                     ></Form.File>

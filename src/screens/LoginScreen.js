@@ -26,7 +26,7 @@ const LoginScreen = ({isAdmin, user}) => {
     return (
         <FormContainer>
             <h1> Sign In</h1>
-            <Form onSubmit={submitHandler}>
+            <Form onSubmit={submitHandler} className="text-right">
                 <Form.Group controlId="email">
                     <Form.Label>
                         Email Address
@@ -51,7 +51,7 @@ const LoginScreen = ({isAdmin, user}) => {
 
             </Form>
 
-            <Row className='py-3'>
+            <Row className='py-3 text-right'>
                 <Col>
                     New Customer?{' '}
                     <Link to={'/register'}>

@@ -59,7 +59,7 @@ const UserEditScreen = ({ match, isAdmin, businesses, categories }) => {
         <>
             <FormContainer>
                 <h1>Edit & Approve</h1>
-                <Form onSubmit={submitHandler}>
+                <Form onSubmit={submitHandler} className="text-right">
                     <Form.Group controlId='name'>
                         <Form.Label>Business Name</Form.Label>
                         <Form.Control

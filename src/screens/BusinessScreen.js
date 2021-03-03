@@ -15,13 +15,13 @@ const BusinessScreen = ({ match, categories, businesses }) => {
               <Col md={6}>
                   <Image src={category?.image} alt={category.name} fluid/>
               </Col>
-              <Col md={3}>
+              <Col md={6}>
                   <ListGroup variant="flush">
                       <ListGroup.Item>
                           <h3>{category.name}</h3>
                       </ListGroup.Item>
                       <ListGroup.Item>
-                         {category.description}
+                        <p>{category.description}</p> 
                       </ListGroup.Item>
                   </ListGroup>
               </Col>

@@ -19,14 +19,14 @@ const UserListScreen = ({isAdmin, businesses}) => {
     return (
         <>
             <Row className='align-items-center'>
-                <Col className='text-left'>
+                <Col className='text-right'>
                     <LinkContainer to={`/admin/user/addbusiness`}>
                         <Button className='my-3'>
                             <i className='fas fa-plus'></i> Create Business
           </Button>
                     </LinkContainer>
                 </Col>
-                <Col className='text-right'>
+                <Col className='text-left'>
                     <LinkContainer to={`/admin/user/addcategory`}>
                         <Button className='my-3'>
                             <i className='fas fa-plus'></i> Create Category
@@ -37,7 +37,7 @@ const UserListScreen = ({isAdmin, businesses}) => {
 
 
             <h1>Users</h1>
-            <Table striped bordered hover responsive className='table-sm'>
+            <Table striped bordered hover responsive className='table-sm text-right'>
                 <thead>
                     <tr>
                         <th>Business Name</th>
