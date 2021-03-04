@@ -1,17 +1,21 @@
 import React,{ useEffect } from 'react'
 import { LinkContainer } from 'react-router-bootstrap'
 import { Table, Button, Row, Col } from 'react-bootstrap'
-import { connect } from 'react-redux';
+import { connect, useDispatch } from 'react-redux';
 import { useHistory } from 'react-router-dom';
-
+import { deleteBusiness } from '../redux/firestore/businesses/businesses.actions'
 
 
 const UserListScreen = ({isAdmin, businesses}) => {
     const history = useHistory();
-
-    const deleteHandler = (id) => {
-
+    const dispatch = useDispatch();
+    const deleteHandler = (business) => {
+        console.log(business);
+        dispatch(deleteBusiness(business))
     }
+    useEffect(() => {
+        console.log(businesses);
+    }, [businesses])
 
     useEffect(() => {
         if(isAdmin === 'false')history.push('/');
@@ -69,7 +73,7 @@ const UserListScreen = ({isAdmin, businesses}) => {
                                 <Button
                                     variant='danger'
                                     className='btn-sm'
-                                    onClick={() => deleteHandler(business._id)}
+                                    onClick={() => deleteHandler(business)}
                                 >
                                     <i className='fas fa-trash'></i>
                                 </Button>
