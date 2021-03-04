@@ -41,7 +41,6 @@ const UserListScreen = ({isAdmin, businesses}) => {
                 <thead>
                     <tr>
                         <th>Business Name</th>
-                        <th>Email</th>
                         <th>Approval Status</th>
                         <th></th>
                     </tr>
@@ -50,9 +49,6 @@ const UserListScreen = ({isAdmin, businesses}) => {
                     {businesses.map((business) => (
                         <tr key={business.uid}>
                             <td>{business.name}</td>
-                            <td>
-                                <a href={`mailto:${business.email}`}>{business.email}</a>
-                            </td>
                             <td>
                                 {business.isApproved ? (
                                     <i className='fas fa-check' style={{ color: 'green' }}></i>

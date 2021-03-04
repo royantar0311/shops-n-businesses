@@ -135,7 +135,7 @@ const UserEditScreen = ({ match, isAdmin, businesses, categories }) => {
                         ></Form.Control> */}
                         <Form.File
                             id='image-file'
-                            label='Choose File'
+                            label=''
                             custom
                             onChange={uploadFileHandler}
                         ></Form.File>

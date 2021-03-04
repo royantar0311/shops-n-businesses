@@ -1,6 +1,7 @@
 import React from 'react'
 import { Link } from 'react-router-dom'
-import { Row, Col, Image, ListGroup } from 'react-bootstrap'
+import { Row, Col, Image, ListGroup, Button } from 'react-bootstrap'
+import { LinkContainer } from 'react-router-bootstrap'
 import { connect } from 'react-redux'
 import { auth } from '../configs/firebase.config'
 
@@ -26,11 +27,11 @@ const BusinessDetailsScreen = ({ match, businesses }) => {
                             <p>{specificBusiness.description}</p>
                         </ListGroup.Item>
                         <ListGroup.Item>
-                        <i className="fa fa-phone fa-fw" aria-hidden="true"></i>
+                            <i className="fa fa-phone fa-fw" aria-hidden="true"></i>
                             {specificBusiness.contactNumber}
                         </ListGroup.Item>
                         <ListGroup.Item>
-                        <i className="fas fa-map-marker-alt fa-fw"></i>
+                            <i className="fas fa-map-marker-alt fa-fw"></i>
 
                             {specificBusiness.address}
                         </ListGroup.Item>
@@ -42,22 +43,30 @@ const BusinessDetailsScreen = ({ match, businesses }) => {
                                 <br />,
                                 cur
                             ])} */}
-                            {specificBusiness.products.split(',').map((item,i) => <> 
-                            <i key={i} className="fas fa-arrow-alt-circle-left fa-fw"></i>
-                            {item} 
-                            <br /> </>)}
-                                
+                            {specificBusiness.products.split(',').map((item, i) => <>
+                                <i key={i} className="fas fa-arrow-alt-circle-left fa-fw"></i>
+                                {item}
+                                <br /> </>)}
+
 
                         </ListGroup.Item>
-                        {specificBusiness.uid === auth.currentUser?.uid ?
-                            // <Button>
-                            <Link to='/'>Edit (design thik koiren vai -_-)</Link>
-                            // </Button> 
-                            : null
-                        }
+
                     </ListGroup>
                 </Col>
             </Row>
+            <Row className='align-items-center'>
+                {specificBusiness.uid === auth.currentUser?.uid ?
+                    <Col className='text-center'>
+                        <LinkContainer to={`/customer/${specificBusiness.uid}/edit`}>
+                            <Button className='my-3'>
+                               Edit Business
+                  </Button>
+                        </LinkContainer>
+                    </Col>
+                    : null
+                }
+            </Row>
+
 
         </>
     )
