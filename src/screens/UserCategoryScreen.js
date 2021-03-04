@@ -6,6 +6,7 @@ import { connect, useDispatch } from 'react-redux';
 import { useHistory } from 'react-router-dom';
 import { addCategory,fetchCategories } from '../redux/firestore/categories/categories.actions';
 import { db } from '../configs/firebase.config';
+import Message from '../components/Message';
 
 const UserCategoryScreen = ({isAdmin}) => {
     const dispatch = useDispatch();
@@ -14,7 +15,7 @@ const UserCategoryScreen = ({isAdmin}) => {
     const [categoryName, setCategoryName] = useState('')
     const [description, setDescription] = useState('')
     const [image, setImage] = useState('')
-
+    const [message, setMessage] = useState(null);
     const uploadFileHandler = async (e) => {
         let file = e.target.files[0];
         let fileType = file.type;
@@ -29,9 +30,13 @@ const UserCategoryScreen = ({isAdmin}) => {
         reader.readAsDataURL(file);
     }
 
+    const validate = () => {
+        setMessage(null);
+        return true;
+    }
     const submitHandler = (e) => {
-        console.log('jacche');
         e.preventDefault()
+        if(!validate())return;
         const newRef = db.collection('categories').doc();
         dispatch(addCategory({
             description,
@@ -50,11 +55,13 @@ const UserCategoryScreen = ({isAdmin}) => {
         <>
             <FormContainer>
                 <h1>Add Category</h1>
+                {message && <Message variant={"danger"}>{message}</Message>}
                 <Form onSubmit={submitHandler} className="text-right">
                     <Form.Group controlId='name'>
                         <Form.Label>Category Name</Form.Label>
                         <Form.Control
                             type='name'
+                            required
                             placeholder='Enter name'
                             value={categoryName}
                             onChange={(e) => setCategoryName(e.target.value)}
@@ -69,6 +76,7 @@ const UserCategoryScreen = ({isAdmin}) => {
                             placeholder='Enter description'
                             value={description}
                             onChange={(e) => setDescription(e.target.value)}
+                            required
                         ></Form.Control>
                     </Form.Group>
 
@@ -79,6 +87,7 @@ const UserCategoryScreen = ({isAdmin}) => {
                             id='image-file'
                             label=''
                             custom
+                            required
                             onChange={uploadFileHandler}
                         ></Form.File>
                     </Form.Group>

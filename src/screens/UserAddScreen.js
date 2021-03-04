@@ -5,6 +5,7 @@ import FormContainer from '../components/FormContainer'
 import { useDispatch, connect } from 'react-redux';
 import { setBusiness } from '../redux/firestore/businesses/businesses.actions';
 import { db } from '../configs/firebase.config'
+import Message from '../components/Message';
 const UserAddScreen = ({ categories, isAdmin }) => {
 
     const dispatch = useDispatch();
@@ -17,6 +18,7 @@ const UserAddScreen = ({ categories, isAdmin }) => {
     const [products, setProducts] = useState("")
     const [description, setDescription] = useState("")
     const [image, setImage] = useState("")
+    const [message, setMessage] = useState(null);
 
     const uploadFileHandler = async (e) => {
         let file = e.target.files[0];
@@ -31,11 +33,16 @@ const UserAddScreen = ({ categories, isAdmin }) => {
         }
         reader.readAsDataURL(file);
     }
-
+    const validate = () => {
+        setMessage(null);
+        return true;
+    }
     const submitHandler = async (e) => {
         e.preventDefault()
-        let newRef = await db.collection("businesses").doc();
-        dispatch(setBusiness({
+        if(!validate())return;
+        try {
+            let newRef = await db.collection("businesses").doc();
+            dispatch(setBusiness({
             name,
             contactNumber,
             address,
@@ -47,6 +54,10 @@ const UserAddScreen = ({ categories, isAdmin }) => {
             isApproved: true
         }));
         history.push('/admin/userlist')
+        } catch (err) {
+            setMessage(err.message);
+        }
+        
     }
 
     useEffect(() => {
@@ -57,11 +68,13 @@ const UserAddScreen = ({ categories, isAdmin }) => {
         <>
             <FormContainer>
                 <h1>Add Business</h1>
+                {message && <Message variant={"danger"}>{message}</Message>}
                 <Form onSubmit={submitHandler} className="text-right">
                     <Form.Group controlId='name'>
                         <Form.Label>Business Name</Form.Label>
                         <Form.Control
                             type='name'
+                            required
                             placeholder='Enter name'
                             value={name}
                             onChange={(e) => setName(e.target.value)}
@@ -74,6 +87,7 @@ const UserAddScreen = ({ categories, isAdmin }) => {
                         <Form.Label>Contact Number</Form.Label>
                         <Form.Control
                             type='text'
+                            required
                             placeholder='Enter Contact Number'
                             value={contactNumber}
                             onChange={(e) => setContactNumber(e.target.value)}
@@ -84,6 +98,7 @@ const UserAddScreen = ({ categories, isAdmin }) => {
                         <Form.Label>Address</Form.Label>
                         <Form.Control
                             type='text'
+                            required
                             placeholder='Enter Address'
                             value={address}
                             onChange={(e) => setAddress(e.target.value)}
@@ -94,6 +109,7 @@ const UserAddScreen = ({ categories, isAdmin }) => {
                         <Form.Label>Select category</Form.Label>
                         <Form.Control
                             as="select"
+                            required
                             value={category}
                             onChange={e => {
                                 console.log("e.target.value", e.target.value);
@@ -102,7 +118,6 @@ const UserAddScreen = ({ categories, isAdmin }) => {
                             <option value="">
                                 --Select Category--
           </option>
-          {console.log(categories)}
                             {categories.map(
                                 (cat) => (
                                     <option value={cat.name}>{cat.name}</option>
@@ -116,6 +131,7 @@ const UserAddScreen = ({ categories, isAdmin }) => {
                         <Form.Control as="textarea" rows={3}
                             placeholder='Enter Products Name'
                             value={products}
+                            required
                             onChange={(e) => setProducts(e.target.value)}>
                         </Form.Control>
                     </Form.Group>
@@ -126,6 +142,7 @@ const UserAddScreen = ({ categories, isAdmin }) => {
                             as="textarea" rows={3}
                             placeholder='Enter description'
                             value={description}
+                            required
                             onChange={(e) => setDescription(e.target.value)}
                         ></Form.Control>
                     </Form.Group>
@@ -136,6 +153,7 @@ const UserAddScreen = ({ categories, isAdmin }) => {
                         <Form.File
                             id='image-file'
                             label=''
+                            required
                             custom
                             onChange={uploadFileHandler}
                         ></Form.File>

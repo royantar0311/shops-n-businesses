@@ -25,7 +25,7 @@ const App = () => {
   useEffect(() => {
 
     dispatch(fetchCategories());
-    dispatch(fetchBusinesses())
+    dispatch(fetchBusinesses());
     let unsubscribeFromAuth = null;
     unsubscribeFromAuth = auth.onAuthStateChanged(user => {
       if(user){

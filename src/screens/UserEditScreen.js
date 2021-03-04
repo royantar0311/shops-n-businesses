@@ -5,7 +5,7 @@ import FormContainer from '../components/FormContainer'
 import { useHistory } from 'react-router-dom';
 import { connect, useDispatch } from 'react-redux';
 import { setBusiness, fetchBusinesses } from '../redux/firestore/businesses/businesses.actions';
-
+import Message from '../components/Message'
 
 const UserEditScreen = ({ match, isAdmin, businesses, categories }) => {
 
@@ -22,6 +22,8 @@ const UserEditScreen = ({ match, isAdmin, businesses, categories }) => {
     const [description, setDescription] = useState(business.description)
     const [image, setImage] = useState(business.image)
     const [isApproved] = useState(business.isApproved);
+    const [message, setMessage] = useState(null);
+
     const uploadFileHandler = async (e) => {
         let file = e.target.files[0];
         let fileType = file.type;
@@ -35,21 +37,31 @@ const UserEditScreen = ({ match, isAdmin, businesses, categories }) => {
         }
         reader.readAsDataURL(file);
     }
-
+    const validate = () => {
+        setMessage(null);
+        return true;
+    }
     const submitHandler = (e) => {
         e.preventDefault()
-        dispatch(setBusiness({
-            name,
-            contactNumber,
-            address,
-            products,
-            category,
-            description,
-            image,
-            uid: business.uid,
-            isApproved: true
-        }));
-        dispatch(fetchBusinesses());
+        if(!validate())return;
+        try {
+            dispatch(setBusiness({
+                name,
+                contactNumber,
+                address,
+                products,
+                category,
+                description,
+                image,
+                uid: business.uid,
+                isApproved: true
+            }));
+            dispatch(fetchBusinesses());
+            history.push('/admin/userlist');
+        } catch (err) {
+            setMessage(err.message);
+        }
+        
     }
     useEffect(() => {
         if(isAdmin === 'false')history.push('/');
@@ -59,11 +71,13 @@ const UserEditScreen = ({ match, isAdmin, businesses, categories }) => {
         <>
             <FormContainer>
                 <h1>Edit & Approve</h1>
+                {message && <Message variant={"danger"}>{message}</Message>}
                 <Form onSubmit={submitHandler} className="text-right">
                     <Form.Group controlId='name'>
                         <Form.Label>Business Name</Form.Label>
                         <Form.Control
                             type='name'
+                            required
                             placeholder='Enter name'
                             value={name}
                             onChange={(e) => setName(e.target.value)}
@@ -76,6 +90,7 @@ const UserEditScreen = ({ match, isAdmin, businesses, categories }) => {
                         <Form.Label>Contact Number</Form.Label>
                         <Form.Control
                             type='text'
+                            required
                             placeholder='Enter Contact Number'
                             value={contactNumber}
                             onChange={(e) => setContactNumber(e.target.value)}
@@ -86,6 +101,7 @@ const UserEditScreen = ({ match, isAdmin, businesses, categories }) => {
                         <Form.Label>Address</Form.Label>
                         <Form.Control
                             type='text'
+                            required
                             placeholder='Enter Address'
                             value={address}
                             onChange={(e) => setAddress(e.target.value)}
@@ -97,6 +113,7 @@ const UserEditScreen = ({ match, isAdmin, businesses, categories }) => {
                         <Form.Control
                             as="select"
                             value={category}
+                            required
                             onChange={e => {
                                 setCategory(e.target.value);
                             }}>
@@ -110,6 +127,7 @@ const UserEditScreen = ({ match, isAdmin, businesses, categories }) => {
                         <Form.Label>Enter product name (Separate product by comma)</Form.Label>
                         <Form.Control as="textarea" rows={3}
                             placeholder='Enter Products Name'
+                            required
                             value={products}
                             onChange={(e) => setProducts(e.target.value)}>
                         </Form.Control>
@@ -120,6 +138,7 @@ const UserEditScreen = ({ match, isAdmin, businesses, categories }) => {
                         <Form.Control
                             as="textarea" rows={3}
                             placeholder='Enter description'
+                            required
                             value={description}
                             onChange={(e) => setDescription(e.target.value)}
                         ></Form.Control>
@@ -135,7 +154,8 @@ const UserEditScreen = ({ match, isAdmin, businesses, categories }) => {
                         ></Form.Control> */}
                         <Form.File
                             id='image-file'
-                            label=''
+                            label='Choose File'
+                            required
                             custom
                             onChange={uploadFileHandler}
                         ></Form.File>

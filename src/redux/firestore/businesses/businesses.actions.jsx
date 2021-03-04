@@ -20,12 +20,26 @@ export const fetchBusinesses = () => async (dispatch) => {
 
 export const setBusiness = (data) => async (dispatch) => {
     try{
-        await db.collection('businesses').doc(data.uid)
-            .set(data);
         dispatch({
             type: businessesTypes.ADD_BUSINESS,
             payload: data
         })
+        await db.collection('businesses').doc(data.uid)
+            .set(data);
+    }
+    catch(err){
+        console.log(err);
+    }
+}
+
+export const deleteBusiness = (business) => async (dispatch) => {
+    try{
+        dispatch({
+            type: businessesTypes.DELETE_BUSINESS,
+            payload: business
+        })
+        await db.collection('businesses').doc(business.uid).delete();
+    
     }
     catch(err){
         console.log(err);

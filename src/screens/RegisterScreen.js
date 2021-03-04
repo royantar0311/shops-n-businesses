@@ -1,6 +1,7 @@
 import React from 'react';
 import { useState } from 'react';
 import { Form, Button, Card } from 'react-bootstrap';
+import Message from '../components/Message'
 import FormContainer from '../components/FormContainer';
 import { auth } from '../configs/firebase.config';
 import { useDispatch } from 'react-redux';
@@ -20,7 +21,8 @@ const RegisterScreen = ({ categories }) => {
     const [confirmPassword, setConfirmPassword] = useState('')
     const [contactNumber, setContactNumber] = useState("")
     const [address, setAddress] = useState('')
-    const [category, setCategory] = useState("")
+    const [category, setCategory] = useState("");
+    const [message, setMessage] = useState(null);
 
     const [products, setProducts] = useState('')
     const [description, setDescription] = useState('')
@@ -38,12 +40,19 @@ const RegisterScreen = ({ categories }) => {
             setImage(reader.result);
         }
         reader.readAsDataURL(file);
+    }  
+    const validate = () => {
+        setMessage(null);
+        if(password !== confirmPassword){
+            setMessage('passwords do not match');
+            return false;
+        }
+        return true;
     }
 
     const submitHandler = async (e) => {
         e.preventDefault()
-        if (password !== confirmPassword) return;
-
+        if(!validate())return;
         try {
             await auth.createUserWithEmailAndPassword(email, password);
             dispatch(setBusiness({
@@ -58,22 +67,16 @@ const RegisterScreen = ({ categories }) => {
                 uid: auth.currentUser.uid,
                 isApproved: false
             }));
-            // dispatch(fetchBusinesses());
         } catch (err) {
-            console.log(err.message);
+            setMessage(err.message);
         }
-        setEmail('');
-        setPassword('');
-        setConfirmPassword('');
-        setContactNumber('');
-        setDescription('');
-
         history.push('/');
     }
 
     return (
         <FormContainer>
             <h1>Sign Up</h1>
+            {message && <Message variant={"danger"}>{message}</Message>}
             <Form onSubmit={submitHandler} className="text-right">
                 <Form.Group controlId='name'>
                     <Form.Label>Business Name</Form.Label>
@@ -81,6 +84,7 @@ const RegisterScreen = ({ categories }) => {
                         type='name'
                         placeholder='Enter name'
                         value={name}
+                        required
                         onChange={(e) => setName(e.target.value)}
                     ></Form.Control>
                 </Form.Group>
@@ -91,6 +95,7 @@ const RegisterScreen = ({ categories }) => {
                         type='email'
                         placeholder='Enter email'
                         value={email}
+                        required
                         onChange={(e) => setEmail(e.target.value)}
                     ></Form.Control>
                 </Form.Group>
@@ -101,6 +106,7 @@ const RegisterScreen = ({ categories }) => {
                         type='text'
                         placeholder='Enter Contact Number'
                         value={contactNumber}
+                        required
                         onChange={(e) => setContactNumber(e.target.value)}
                     ></Form.Control>
                 </Form.Group>
@@ -111,6 +117,7 @@ const RegisterScreen = ({ categories }) => {
                         type='text'
                         placeholder='Enter Address'
                         value={address}
+                        required
                         onChange={(e) => setAddress(e.target.value)}
                     ></Form.Control>
                 </Form.Group>
@@ -120,14 +127,14 @@ const RegisterScreen = ({ categories }) => {
                     <Form.Control
                         as="select"
                         value={category}
+                        required
                         onChange={e => {
                             console.log("e.target.value", e.target.value);
                             setCategory(e.target.value);
                         }}>
                         <option value="">
                             --Select Category--
-          </option>
-                        {console.log(categories)}
+                        </option>
                         {categories.map(
                             (cat) => (
                                 <option key={cat.uid} value={cat.name}>{cat.name}</option>
@@ -147,6 +154,7 @@ const RegisterScreen = ({ categories }) => {
                     <Form.Control as="textarea" rows={3}
                         placeholder='Enter Products Name'
                         value={products}
+                        required
                         onChange={(e) => setProducts(e.target.value)}>
                     </Form.Control>
                 </Form.Group>
@@ -167,6 +175,7 @@ const RegisterScreen = ({ categories }) => {
                     <Form.File
                         id='image-file'
                         label=''
+                        required
                         custom
                         onChange={uploadFileHandler}
                     ></Form.File>
@@ -178,6 +187,7 @@ const RegisterScreen = ({ categories }) => {
                     <Form.Label>Password</Form.Label>
                     <Form.Control
                         type='password'
+                        required
                         placeholder='Enter password'
                         value={password}
                         onChange={(e) => setPassword(e.target.value)}
@@ -189,6 +199,7 @@ const RegisterScreen = ({ categories }) => {
                     <Form.Control
                         type='password'
                         placeholder='Confirm password'
+                        required
                         value={confirmPassword}
                         onChange={(e) => setConfirmPassword(e.target.value)}
                     ></Form.Control>
