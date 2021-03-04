@@ -1,26 +1,61 @@
-import React from 'react'
-import { Row, Col } from 'react-bootstrap'
+import React, { useState, useEffect } from 'react'
+import { Row, Col, Form, Button } from 'react-bootstrap'
 import Category from '../components/Category'
 import { connect } from 'react-redux'
-const HomeScreen = ({categories}) => {
+const HomeScreen = ({ categories }) => {
+
+    const [search, setSearch] = useState("");
+    const [filteredCategory, setFilteredCategory] = useState(categories)
+
+
+    const submitHandler = (e) => {
+        e.preventDefault()
+        const temp = categories.filter((cat) => cat.name.includes(search) === true || cat.description.includes(search)===true)
+        console.log(temp)
+        setFilteredCategory(temp)
+
+    }
+
+    useEffect(() => {
+        setFilteredCategory(categories)
+    }, [categories, setFilteredCategory])
+
+
+
+
     return (
         <>
+            <Form onSubmit={submitHandler} inline>
+                <Form.Control
+                    type='text'
+                    name='q'
+                    onChange={(e) => setSearch(e.target.value)}
+                    placeholder='Search Categories'
+                    className='mr-sm-2 ml-sm-5'
+                ></Form.Control>
+                <Button type='submit' variant='outline-success' className='p-2'>
+                    Search
+      </Button>
+            </Form>
+
+
             <h1>Categories</h1>
+            {console.log(filteredCategory)}
             <Row className="text-right">
-                {categories.map((category) => {
-                        return (
+                {filteredCategory.map((category) => {
+                    return (
                         <Col key={category.uid} sm={12} md={6} lg={4} xl={3}>
                             <Category key={category.uid} category={category} />
                         </Col>
-                        )
-                    })}
+                    )
+                })}
             </Row>
 
         </>
     )
 }
 
-const mapStateToProps = (state)=>({
+const mapStateToProps = (state) => ({
     categories: state.categories.categories,
 })
 export default connect(mapStateToProps)(HomeScreen);
