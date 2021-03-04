@@ -19,7 +19,7 @@ const UserEditScreen = ({ match, isAdmin, businesses, categories }) => {
     const [products, setProducts] = useState('')
     const [description, setDescription] = useState('')
     const [image, setImage] = useState('')
-    const [isApproved] = useState('');
+    const [isApproved ,setIsApproved] = useState(false);
     const [message, setMessage] = useState(null);
     const [uid, setUid] = useState('');
 
@@ -73,6 +73,7 @@ const UserEditScreen = ({ match, isAdmin, businesses, categories }) => {
         setImage(specificBusiness.image);
         setDescription(specificBusiness.description);
         setUid(specificBusiness.uid);
+        setIsApproved(specificBusiness.isApproved)
 
     }, [businesses, 
         match, setName, setContactNumber, 
