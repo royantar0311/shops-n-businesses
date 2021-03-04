@@ -5,6 +5,7 @@ import { Form, Button, Row, Col } from 'react-bootstrap'
 import FormContainer from '../components/FormContainer'
 import { auth } from '../configs/firebase.config';
 import { useHistory } from "react-router-dom";
+import Message from '../components/Message';
 import { connect } from 'react-redux'
 const LoginScreen = ({isAdmin, user}) => {
     const history = useHistory();
@@ -12,20 +13,26 @@ const LoginScreen = ({isAdmin, user}) => {
 
     const [email, setEmail] = useState('')
     const [password, setPassword] = useState('')
+    const [message, setMessage] = useState(null);
 
+    const validate = () => {
+        setMessage(null);
+        return true;
+    }
     const submitHandler = async (e) => {
         e.preventDefault();
-        //console.log(email+" "+password);
+        if(!validate())return;
        try{ 
         await auth.signInWithEmailAndPassword(email, password);
         history.push('/');
        }catch(err){
-           console.log(err);
+           setMessage(err.message);
        }
     }
     return (
         <FormContainer>
             <h1> Sign In</h1>
+            {message && <Message variant={"danger"}>{message}</Message>}
             <Form onSubmit={submitHandler} className="text-right">
                 <Form.Group controlId="email">
                     <Form.Label>

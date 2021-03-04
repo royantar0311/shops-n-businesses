@@ -14,7 +14,6 @@ const businessReducer = (state = initialState, action) => {
                 businesses: action.payload
             };
         case businessesTypes.ADD_BUSINESS:
-            
             businesses.push(action.payload);
             return {
                 ...state,

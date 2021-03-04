@@ -34,7 +34,6 @@ export const setBusiness = (data) => async (dispatch) => {
 
 export const deleteBusiness = (business) => async (dispatch) => {
     try{
-        console.log('action called ' + business);
         dispatch({
             type: businessesTypes.DELETE_BUSINESS,
             payload: business
