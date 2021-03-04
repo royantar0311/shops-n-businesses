@@ -56,7 +56,6 @@ const UserEditScreen = ({ match, isAdmin, businesses, categories }) => {
                 uid: business.uid,
                 isApproved: true
             }));
-            dispatch(fetchBusinesses());
             history.push('/admin/userlist');
         } catch (err) {
             setMessage(err.message);
@@ -84,8 +83,6 @@ const UserEditScreen = ({ match, isAdmin, businesses, categories }) => {
                         ></Form.Control>
                     </Form.Group>
 
-
-
                     <Form.Group controlId='contactNumber'>
                         <Form.Label>Contact Number</Form.Label>
                         <Form.Control
@@ -109,20 +106,25 @@ const UserEditScreen = ({ match, isAdmin, businesses, categories }) => {
                     </Form.Group>
 
                     <Form.Group controlId="category">
-                        <Form.Label>Select category</Form.Label>
-                        <Form.Control
-                            as="select"
-                            value={category}
-                            required
-                            onChange={e => {
-                                setCategory(e.target.value);
-                            }}>
-                            <option value="DICTUM">Dictamen</option>
-                            <option value="CONSTANCY">Constancia</option>
-                            <option value="COMPLEMENT">Complemento</option>
-                        </Form.Control>
-                    </Form.Group>
-
+                    <Form.Label>Select category</Form.Label>
+                    <Form.Control
+                        as="select"
+                        value={category}
+                        required
+                        onChange={e => {
+                            console.log("e.target.value", e.target.value);
+                            setCategory(e.target.value);
+                        }}>
+                        <option value="">
+                            --Select Category--
+                        </option>
+                        {categories.map(
+                            (cat) => (
+                                <option key={cat.uid} value={cat.name}>{cat.name}</option>
+                            )
+                        )}
+                    </Form.Control>
+                </Form.Group>
                     <Form.Group controlId="products">
                         <Form.Label>Enter product name (Separate product by comma)</Form.Label>
                         <Form.Control as="textarea" rows={3}
@@ -146,16 +148,10 @@ const UserEditScreen = ({ match, isAdmin, businesses, categories }) => {
 
                     <Form.Group controlId='image'>
                         <Image src={business.image} alt={business.name} fluid />
-                        {/* <Form.Control
-                            type='text'
-                            placeholder='Enter image url'
-                            value={image}
-                            onChange={(e) => setImage(e.target.value)}
-                        ></Form.Control> */}
+
                         <Form.File
                             id='image-file'
                             label='Choose File'
-                            required
                             custom
                             onChange={uploadFileHandler}
                         ></Form.File>

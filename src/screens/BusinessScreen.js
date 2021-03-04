@@ -1,11 +1,16 @@
-import React from 'react'
+import React, { useEffect, useState } from 'react'
 import { Link } from 'react-router-dom'
 import { Row, Col, Image, ListGroup } from 'react-bootstrap'
 import Business from '../components/Business'
 import { connect } from 'react-redux'
 const BusinessScreen = ({ match, categories, businesses }) => {
-    const business = businesses.filter((p) => p.category === match.params.category)
-    const category = categories.find((p) => p.name === match.params.category)
+    const [business, setBusiness] = useState(undefined);
+    const [category, setCategory] = useState(undefined);
+    useEffect(() => {
+        setBusiness(businesses.filter((p) => p.category === match.params.category));
+        setCategory( categories.find((p) => p.name === match.params.category));
+    }, [setBusiness, setCategory, businesses, categories, match]);
+    if(category===undefined)return 'loading';
     return (
         <>
             <Link className='btn btn-light my-3' to='/'>

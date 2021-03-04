@@ -164,6 +164,7 @@ const RegisterScreen = ({ categories }) => {
                     <Form.Control
                         as="textarea" rows={3}
                         placeholder='Enter description'
+                        required
                         value={description}
                         onChange={(e) => setDescription(e.target.value)}
                     ></Form.Control>
@@ -175,7 +176,6 @@ const RegisterScreen = ({ categories }) => {
                     <Form.File
                         id='image-file'
                         label=''
-                        required
                         custom
                         onChange={uploadFileHandler}
                     ></Form.File>
