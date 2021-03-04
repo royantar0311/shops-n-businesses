@@ -1,17 +1,37 @@
 import React, { useEffect, useState } from 'react'
 import { Link } from 'react-router-dom'
-import { Row, Col, Image, ListGroup } from 'react-bootstrap'
+import { Row, Col, Image, ListGroup, Form, Button } from 'react-bootstrap'
 import Business from '../components/Business'
 import { connect } from 'react-redux'
 import Loader from '../components/Loader'
 const BusinessScreen = ({ match, categories, businesses }) => {
     const [business, setBusiness] = useState(undefined);
     const [category, setCategory] = useState(undefined);
-    useEffect(() => {
-        setBusiness(businesses.filter((p) => p.category === match.params.category));
+    const [filteredBusiness, setFilteredBusiness] = useState([]);
+    const [search, setSearch] = useState('');
+    useEffect(()=>{
         setCategory( categories.find((p) => p.name === match.params.category));
-    }, [setBusiness, setCategory, businesses, categories, match]);
-    if(category === undefined)return <Loader/>;
+    },[categories,setCategory, match])
+    useEffect(() => {
+        const temp = businesses.filter((p) => p.category === match.params.category);
+        console.log(temp)
+        setFilteredBusiness(temp);
+    }, [setBusiness, businesses, match, setFilteredBusiness, business]);
+
+    const submitHandler = (e) => {
+        e.preventDefault();
+        if(search === ''){
+            setFilteredBusiness(businesses.filter((p) => p.category === match.params.category));
+            return;
+        }
+        setSearch(search.toLowerCase());
+        const temp = filteredBusiness.filter((bus) => bus.name.toLowerCase().includes(search) === true 
+                        || bus.description.toLowerCase().includes(search)===true
+                        || bus.products.toLowerCase().includes(search)===true)
+        setFilteredBusiness(temp);
+    }
+
+    if(filteredBusiness === undefined || category === undefined)return <Loader/>;
     return (
         <>
             <Link className='btn btn-light my-3' to='/'>
@@ -32,12 +52,23 @@ const BusinessScreen = ({ match, categories, businesses }) => {
                     </ListGroup>
                 </Col>
             </Row>
-
+            <Form onSubmit={submitHandler} inline>
+                <Form.Control
+                    type='text'
+                    name='q'
+                    onChange={(e) => setSearch(e.target.value)}
+                    placeholder='Search Categories'
+                    className='mr-sm-2 ml-sm-5'
+                ></Form.Control>
+                <Button type='submit' variant='outline-success' className='p-2'>
+                    Search
+                 </Button>
+            </Form>
             <h1 className="my-3">Business</h1>
             {
-                business.length === 0 ? <p>Businesses are coming</p> :
+                filteredBusiness.length === 0 ? <p>Businesses are coming</p> :
                     <Row>
-                        {business.map((busi) => {
+                        {filteredBusiness.map((busi) => {
                             if (busi.isApproved === false) return null;
                             return (<Col key={busi.uid} sm={12} md={6} lg={4} xl={3}>
                                 <Business busi={busi} />

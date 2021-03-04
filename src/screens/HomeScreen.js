@@ -12,10 +12,9 @@ const HomeScreen = ({ categories, isLoading }) => {
 
     const submitHandler = (e) => {
         e.preventDefault()
-        const temp = categories.filter((cat) => cat.name.includes(search) === true || cat.description.includes(search)===true)
+        const temp = categories.filter((cat) => cat.name.toLowerCase().includes(search) === true || cat.description.toLowerCase().includes(search)===true)
         console.log(temp)
         setFilteredCategory(temp)
-
     }
 
     useEffect(() => {
@@ -35,7 +34,7 @@ const HomeScreen = ({ categories, isLoading }) => {
                 ></Form.Control>
                 <Button type='submit' variant='outline-success' className='p-2'>
                     Search
-      </Button>
+                 </Button>
             </Form>
 
 

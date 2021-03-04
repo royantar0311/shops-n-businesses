@@ -4,7 +4,6 @@ import { LinkContainer } from 'react-router-bootstrap'
 import { connect } from 'react-redux';
 import { useHistory } from 'react-router-dom';
 import { auth } from '../configs/firebase.config';
-import Loader from './Loader';
 const Header = ({ user, isAdmin }) => {
     const history = useHistory();
 
