@@ -94,7 +94,7 @@ const UserAddScreen = ({ categories }) => {
                                 console.log("e.target.value", e.target.value);
                                 setCategory(e.target.value);
                             }}>
-                            <option value="" selected>
+                            <option value="">
                                 --Select Category--
           </option>
           {console.log(categories)}

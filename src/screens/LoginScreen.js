@@ -15,7 +15,7 @@ const LoginScreen = ({isAdmin, user}) => {
 
     const submitHandler = async (e) => {
         e.preventDefault();
-        console.log(email+" "+password);
+        //console.log(email+" "+password);
        try{ 
         await auth.signInWithEmailAndPassword(email, password);
         history.push('/');
