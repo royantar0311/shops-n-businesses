@@ -4,7 +4,7 @@ import Category from '../components/Category'
 import { connect } from 'react-redux'
 import Loader from '../components/Loader'
 
-const HomeScreen = ({ categories }) => {
+const HomeScreen = ({ categories, isLoading }) => {
 
     const [search, setSearch] = useState("");
     const [filteredCategory, setFilteredCategory] = useState(categories)
