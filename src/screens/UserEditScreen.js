@@ -1,4 +1,4 @@
-import React,{ useEffect } from 'react'
+import React, { useEffect } from 'react'
 import { useState } from 'react'
 import { Form, Button, Image } from 'react-bootstrap'
 import FormContainer from '../components/FormContainer'
@@ -27,8 +27,8 @@ const UserEditScreen = ({ match, isAdmin, businesses, categories }) => {
     const uploadFileHandler = async (e) => {
         let file = e.target.files[0];
         let fileType = file.type;
-        if( file === undefined || file.size === 0 || 
-            !(fileType === "image/jpg" || fileType === "image/jpeg" || fileType === "image/png")){
+        if (file === undefined || file.size === 0 ||
+            !(fileType === "image/jpg" || fileType === "image/jpeg" || fileType === "image/png")) {
             return;
         }
         let reader = new FileReader();
@@ -43,7 +43,7 @@ const UserEditScreen = ({ match, isAdmin, businesses, categories }) => {
     }
     const submitHandler = (e) => {
         e.preventDefault()
-        if(!validate())return;
+        if (!validate()) return;
         try {
             dispatch(setBusiness({
                 name,
@@ -60,11 +60,11 @@ const UserEditScreen = ({ match, isAdmin, businesses, categories }) => {
         } catch (err) {
             setMessage(err.message);
         }
-        
+
     }
     useEffect(() => {
-        if(isAdmin === 'false')history.push('/');
-    }, [isAdmin,history])
+        if (isAdmin === 'false') history.push('/');
+    }, [isAdmin, history])
 
     return (
         <>
@@ -112,7 +112,6 @@ const UserEditScreen = ({ match, isAdmin, businesses, categories }) => {
                         value={category}
                         required
                         onChange={e => {
-                            console.log("e.target.value", e.target.value);
                             setCategory(e.target.value);
                         }}>
                         <option value="">
@@ -159,11 +158,11 @@ const UserEditScreen = ({ match, isAdmin, businesses, categories }) => {
                     {isApproved === false ?
                         <Button type='submit' variant='primary'>
                             Approve
-                        </Button> 
+                        </Button>
                         :
                         null
                     }
-                    
+
                 </Form>
 
 
