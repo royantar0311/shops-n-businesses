@@ -2,7 +2,10 @@ import React from 'react'
 import { Row, Col } from 'react-bootstrap'
 import Category from '../components/Category'
 import { connect } from 'react-redux'
-const HomeScreen = ({categories}) => {
+import Loader from '../components/Loader'
+const HomeScreen = ({categories, isLoading}) => {
+    
+    if(isLoading)return <Loader/>
     return (
         <>
             <h1>Categories</h1>
@@ -22,5 +25,6 @@ const HomeScreen = ({categories}) => {
 
 const mapStateToProps = (state)=>({
     categories: state.categories.categories,
+    isLoading: state.categories.isLoading
 })
 export default connect(mapStateToProps)(HomeScreen);

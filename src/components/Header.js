@@ -4,6 +4,7 @@ import { LinkContainer } from 'react-router-bootstrap'
 import { connect } from 'react-redux';
 import { useHistory } from 'react-router-dom';
 import { auth } from '../configs/firebase.config';
+import Loader from './Loader';
 const Header = ({ user, isAdmin }) => {
     const history = useHistory();
 
@@ -22,24 +23,24 @@ const Header = ({ user, isAdmin }) => {
                     <Navbar.Toggle aria-controls="basic-navbar-nav" />
                     <Navbar.Collapse id="basic-navbar-nav">
                         <Nav className="ml-auto">
-                            <>
-                                {user && user != null && isAdmin !== 'loading' ?
-                                    isAdmin === 'true' ?
-                                        <LinkContainer to='/admin/userlist'>
-                                            <Nav.Link>
-                                                <i className="fas fa-user-cog fa-fw "></i>
-                                                    Admin Panel
-                                        </Nav.Link>
-                                        </LinkContainer>
-                                        :
-                                        <LinkContainer to={`/businessdetails/${auth.currentUser.uid}`}>
-                                            <Nav.Link>
-                                                <i className="fas fa-user-edit fa-fw"></i>
-                                                Edit Business
-                                        </Nav.Link>
-                                        </LinkContainer>
-
-                                    : null
+                            <>  {user && user !== undefined && isAdmin !== 'loading' ?
+                                        isAdmin === 'true' ?
+                                            <LinkContainer to='/admin/userlist'>
+                                                <Nav.Link>
+                                                    <i className="fas fa-user-cog fa-fw "></i>
+                                                        Admin Panel
+                                            </Nav.Link>
+                                            </LinkContainer>
+                                            :
+                                            <LinkContainer to={`/businessdetails/${auth.currentUser.uid}`}>
+                                                <Nav.Link>
+                                                    <i className="fas fa-user-edit fa-fw"></i>
+                                                    Edit Business
+                                            </Nav.Link>
+                                            </LinkContainer>
+                                     
+                                        : null
+                                
                                 }
                                 {user && user != null ?
                                     <>

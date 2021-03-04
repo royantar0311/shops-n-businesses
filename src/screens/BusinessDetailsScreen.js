@@ -4,6 +4,7 @@ import { Row, Col, Image, ListGroup, Button } from 'react-bootstrap'
 import { LinkContainer } from 'react-router-bootstrap'
 import { connect } from 'react-redux'
 import { auth } from '../configs/firebase.config'
+import Loader from '../components/Loader'
 
 const BusinessDetailsScreen = ({ match, businesses }) => {
     const [specificBusiness, setSpecificBusiness] = useState(undefined); 
@@ -11,7 +12,7 @@ const BusinessDetailsScreen = ({ match, businesses }) => {
         setSpecificBusiness(businesses.find((p) => p.uid === match.params.businessUid));
         
     }, [setSpecificBusiness, businesses,match]);
-    if (specificBusiness === undefined) return `Loading`;
+    if (specificBusiness === undefined) return <Loader/>;
     return (
         <>
             <Link className='btn btn-light my-3' to='/'>
@@ -41,11 +42,6 @@ const BusinessDetailsScreen = ({ match, businesses }) => {
 
                         <ListGroup.Item>
                             <h3>List of products/services</h3>
-                            {/* {specificBusiness.products.split(',').reduce((all, cur) => [
-                                ...all,
-                                <br />,
-                                cur
-                            ])} */}
                             {specificBusiness.products.split(',').map((item, i) => <>
                                 <i key={i} className="fas fa-arrow-alt-circle-left fa-fw"></i>
                                 {item}

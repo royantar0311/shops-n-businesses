@@ -20,6 +20,7 @@ export const fetchBusinesses = () => async (dispatch) => {
 
 export const setBusiness = (data) => async (dispatch) => {
     try{
+        console.log(data);
         await db.collection('businesses').doc(data.uid)
             .set(data);
         dispatch({

@@ -5,28 +5,50 @@ import FormContainer from '../components/FormContainer'
 import { useHistory } from 'react-router-dom';
 import { connect, useDispatch } from 'react-redux';
 import Message from '../components/Message';
-import { setBusiness, fetchBusinesses } from '../redux/firestore/businesses/businesses.actions';
+import { setBusiness } from '../redux/firestore/businesses/businesses.actions'
+import { auth } from '../configs/firebase.config'
 
 const CustomerEditScreen = ({ match, isAdmin, businesses, categories }) => {
     const history = useHistory();
     const dispatch = useDispatch();
 
-    const business = businesses.find((p) => p.uid === match.params.id)
-
-    const [name, setName] = useState(business.name)
-    const [contactNumber, setContactNumber] = useState(business.contactNumber)
-    const [address, setAddress] = useState(business.address)
-    const [category, setCategory] = useState(business.category)
-    const [products, setProducts] = useState(business.products)
-    const [description, setDescription] = useState(business.description)
-    const [image, setImage] = useState(business.image)
+    const [name, setName] = useState('')
+    const [contactNumber, setContactNumber] = useState('')
+    const [address, setAddress] = useState('')
+    const [category, setCategory] = useState('')
+    const [products, setProducts] = useState('')
+    const [description, setDescription] = useState('')
+    const [image, setImage] = useState('')
     const [message, setMessage] = useState(null);
+
+    useEffect(() => {
+
+        const specificBusiness = businesses.find((business) => {
+            console.log(business.uid + " " + match.params.id)
+            return business.uid === match.params.id
+        });
+        if(specificBusiness === undefined)return;
+        console.log(specificBusiness);
+        setName(specificBusiness.name);
+        setContactNumber(specificBusiness.contactNumber);
+        setAddress(specificBusiness.address);
+        setCategory(specificBusiness.category);
+        setProducts(specificBusiness.products);
+        setImage(specificBusiness.image);
+        setDescription(specificBusiness.description);
+
+    }, [businesses, 
+        match, setName, setContactNumber, 
+        setProducts, setAddress, 
+        setImage, setDescription, 
+        setCategory]);
 
     const uploadFileHandler = async (e) => {
         let file = e.target.files[0];
         let fileType = file.type;
         if( file === undefined || file.size === 0 || 
             !(fileType === "image/jpg" || fileType === "image/jpeg" || fileType === "image/png")){
+                setMessage('please upload an image!');
             return;
         }
         let reader = new FileReader();
@@ -47,16 +69,16 @@ const CustomerEditScreen = ({ match, isAdmin, businesses, categories }) => {
                 category,
                 description,
                 image,
-                uid: business.uid,
+                uid: auth.currentUser.uid,
                 isApproved: false
             }));
-            history.push(`/businessdetails/${business.uid}`);
+            history.push(`/businessdetails/${auth.currentUser.uid}`);
         } catch (err) {
             setMessage(err.message);
         }
         
     }
-
+    if(!name || !image || !description || !contactNumber || !products || !address || !category)return 'loading';
     return (
         <>
             <FormContainer>
@@ -73,9 +95,6 @@ const CustomerEditScreen = ({ match, isAdmin, businesses, categories }) => {
                             onChange={(e) => setName(e.target.value)}
                         ></Form.Control>
                     </Form.Group>
-
-
-
                     <Form.Group controlId='contactNumber'>
                         <Form.Label>Contact Number</Form.Label>
                         <Form.Control
@@ -141,7 +160,7 @@ const CustomerEditScreen = ({ match, isAdmin, businesses, categories }) => {
                     </Form.Group>
 
                     <Form.Group controlId='image'>
-                        <Image src={business.image} alt={business.name} fluid />
+                        <Image src={image} alt={name} fluid />
                         <Form.File
                             id='image-file'
                             label=''

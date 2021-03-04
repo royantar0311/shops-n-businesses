@@ -3,6 +3,9 @@ import { db } from '../../../configs/firebase.config'
 
 export const fetchCategories = () => async (dispatch) => {
     try{
+        dispatch({
+            type: categoriesTypes.LOADING
+        })
         const querySnapshot = await db.collection('categories').get();
         const data = [];
         querySnapshot.forEach((doc) => {
