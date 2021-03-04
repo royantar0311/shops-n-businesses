@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useState, useEffect } from 'react'
 import { Link } from 'react-router-dom'
 import { Row, Col, Image, ListGroup, Button } from 'react-bootstrap'
 import { LinkContainer } from 'react-router-bootstrap'
@@ -6,8 +6,11 @@ import { connect } from 'react-redux'
 import { auth } from '../configs/firebase.config'
 
 const BusinessDetailsScreen = ({ match, businesses }) => {
-
-    const specificBusiness = businesses.find((p) => p.uid === match.params.businessUid)
+    const [specificBusiness, setSpecificBusiness] = useState(undefined); 
+    useEffect(() => {
+        setSpecificBusiness(businesses.find((p) => p.uid === match.params.businessUid));
+        
+    }, [setSpecificBusiness, businesses,match]);
     if (specificBusiness === undefined) return `Loading`;
     return (
         <>

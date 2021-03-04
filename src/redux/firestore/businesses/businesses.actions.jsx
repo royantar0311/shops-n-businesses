@@ -20,12 +20,13 @@ export const fetchBusinesses = () => async (dispatch) => {
 
 export const setBusiness = (data) => async (dispatch) => {
     try{
+        await db.collection('businesses').doc(data.uid)
+            .set(data);
         dispatch({
             type: businessesTypes.ADD_BUSINESS,
             payload: data
         })
-        await db.collection('businesses').doc(data.uid)
-            .set(data);
+        
     }
     catch(err){
         console.log(err);

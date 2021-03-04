@@ -5,8 +5,7 @@ const initialState = {
 }
 
 const businessReducer = (state = initialState, action) => {
-    console.log('dispatched');
-    const businesses = state.businesses;
+    let businesses;
     switch(action.type){
         case businessesTypes.FETCH_BUSINESSES: 
             return {
@@ -14,6 +13,7 @@ const businessReducer = (state = initialState, action) => {
                 businesses: action.payload
             };
         case businessesTypes.ADD_BUSINESS:
+            businesses = state.businesses.filter(business => business.uid !== action.payload.uid);
             businesses.push(action.payload);
             return {
                 ...state,
