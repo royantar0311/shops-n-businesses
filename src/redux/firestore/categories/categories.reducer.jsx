@@ -1,7 +1,8 @@
 import categoriesTypes from "./categories.types";
 
 const initialState = {
-    categories: []
+    categories: [],
+    isLoading: false
 };
 
 const categoriesReducer = (state = initialState, action) => { 
@@ -9,7 +10,8 @@ const categoriesReducer = (state = initialState, action) => {
         case categoriesTypes.FETCH_CATEGORIES:
             return {
                 ...state,
-                categories: action.payload
+                categories: action.payload,
+                isLoading: false
             };
         case categoriesTypes.ADD_CATEGORY:
             const categories = state.categories;
@@ -17,6 +19,11 @@ const categoriesReducer = (state = initialState, action) => {
             return {
                 ...state,
                 categories
+            }
+        case categoriesTypes.LOADING:
+            return {
+                ...state,
+                isLoading: true,
             }
         default:
              return state;

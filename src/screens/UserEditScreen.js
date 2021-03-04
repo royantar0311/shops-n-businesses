@@ -4,7 +4,7 @@ import { Form, Button, Image } from 'react-bootstrap'
 import FormContainer from '../components/FormContainer'
 import { useHistory } from 'react-router-dom';
 import { connect, useDispatch } from 'react-redux';
-import { setBusiness, fetchBusinesses } from '../redux/firestore/businesses/businesses.actions';
+import { setBusiness } from '../redux/firestore/businesses/businesses.actions';
 import Message from '../components/Message'
 
 const UserEditScreen = ({ match, isAdmin, businesses, categories }) => {

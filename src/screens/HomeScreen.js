@@ -2,6 +2,8 @@ import React, { useState, useEffect } from 'react'
 import { Row, Col, Form, Button } from 'react-bootstrap'
 import Category from '../components/Category'
 import { connect } from 'react-redux'
+import Loader from '../components/Loader'
+
 const HomeScreen = ({ categories }) => {
 
     const [search, setSearch] = useState("");
@@ -20,9 +22,7 @@ const HomeScreen = ({ categories }) => {
         setFilteredCategory(categories)
     }, [categories, setFilteredCategory])
 
-
-
-
+    if(isLoading)return <Loader/>
     return (
         <>
             <Form onSubmit={submitHandler} inline>
@@ -57,5 +57,6 @@ const HomeScreen = ({ categories }) => {
 
 const mapStateToProps = (state) => ({
     categories: state.categories.categories,
+    isLoading: state.categories.isLoading
 })
 export default connect(mapStateToProps)(HomeScreen);

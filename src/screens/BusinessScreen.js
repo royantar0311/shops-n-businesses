@@ -3,6 +3,7 @@ import { Link } from 'react-router-dom'
 import { Row, Col, Image, ListGroup } from 'react-bootstrap'
 import Business from '../components/Business'
 import { connect } from 'react-redux'
+import Loader from '../components/Loader'
 const BusinessScreen = ({ match, categories, businesses }) => {
     const [business, setBusiness] = useState(undefined);
     const [category, setCategory] = useState(undefined);
@@ -10,7 +11,7 @@ const BusinessScreen = ({ match, categories, businesses }) => {
         setBusiness(businesses.filter((p) => p.category === match.params.category));
         setCategory( categories.find((p) => p.name === match.params.category));
     }, [setBusiness, setCategory, businesses, categories, match]);
-    if(category===undefined)return 'loading';
+    if(category === undefined)return <Loader/>;
     return (
         <>
             <Link className='btn btn-light my-3' to='/'>
