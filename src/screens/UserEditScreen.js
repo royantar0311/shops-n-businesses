@@ -12,17 +12,16 @@ const UserEditScreen = ({ match, isAdmin, businesses, categories }) => {
     const history = useHistory();
     const dispatch = useDispatch();
 
-    const business = businesses.find((p) => p.uid === match.params.id)
-
-    const [name, setName] = useState(business.name)
-    const [contactNumber, setContactNumber] = useState(business.contactNumber)
-    const [address, setAddress] = useState(business.address)
-    const [category, setCategory] = useState(business.category)
-    const [products, setProducts] = useState(business.products)
-    const [description, setDescription] = useState(business.description)
-    const [image, setImage] = useState(business.image)
-    const [isApproved] = useState(business.isApproved);
+    const [name, setName] = useState('')
+    const [contactNumber, setContactNumber] = useState('')
+    const [address, setAddress] = useState('')
+    const [category, setCategory] = useState('')
+    const [products, setProducts] = useState('')
+    const [description, setDescription] = useState('')
+    const [image, setImage] = useState('')
+    const [isApproved] = useState('');
     const [message, setMessage] = useState(null);
+    const [uid, setUid] = useState('');
 
     const uploadFileHandler = async (e) => {
         let file = e.target.files[0];
@@ -53,7 +52,7 @@ const UserEditScreen = ({ match, isAdmin, businesses, categories }) => {
                 category,
                 description,
                 image,
-                uid: business.uid,
+                uid: uid,
                 isApproved: true
             }));
             history.push('/admin/userlist');
@@ -62,6 +61,25 @@ const UserEditScreen = ({ match, isAdmin, businesses, categories }) => {
         }
 
     }
+
+    useEffect(() => {
+        const specificBusiness = businesses.find((business) => business.uid === match.params.id);
+        if(specificBusiness === undefined)return;
+        setName(specificBusiness.name);
+        setContactNumber(specificBusiness.contactNumber);
+        setAddress(specificBusiness.address);
+        setCategory(specificBusiness.category);
+        setProducts(specificBusiness.products);
+        setImage(specificBusiness.image);
+        setDescription(specificBusiness.description);
+        setUid(specificBusiness.uid);
+
+    }, [businesses, 
+        match, setName, setContactNumber, 
+        setProducts, setAddress, 
+        setImage, setDescription, 
+        setCategory]);
+
     useEffect(() => {
         if (isAdmin === 'false') history.push('/');
     }, [isAdmin, history])
@@ -146,22 +164,19 @@ const UserEditScreen = ({ match, isAdmin, businesses, categories }) => {
                     </Form.Group>
 
                     <Form.Group controlId='image'>
-                        <Image src={business.image} alt={business.name} fluid />
+                        <Image src={image} alt={name} fluid />
 
                         <Form.File
                             id='image-file'
-                            label='Choose File'
+                            label=''
                             custom
                             onChange={uploadFileHandler}
                         ></Form.File>
                     </Form.Group>
-                    {isApproved === false ?
                         <Button type='submit' variant='primary'>
-                            Approve
+                            {isApproved === true ? 'Save Changes' : 'Approve'}
                         </Button>
-                        :
-                        null
-                    }
+                    
 
                 </Form>
 

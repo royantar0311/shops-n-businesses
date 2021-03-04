@@ -4,7 +4,7 @@ import Category from '../components/Category'
 import { connect } from 'react-redux'
 import Loader from '../components/Loader'
 
-const HomeScreen = ({ categories, isLoading }) => {
+const HomeScreen = ({ categories, isLoading, isAdmin }) => {
 
     const [search, setSearch] = useState("");
     const [filteredCategory, setFilteredCategory] = useState(categories)
@@ -21,7 +21,7 @@ const HomeScreen = ({ categories, isLoading }) => {
         setFilteredCategory(categories)
     }, [categories, setFilteredCategory])
 
-    if(isLoading)return <Loader/>
+    if(isLoading || isAdmin === 'loading')return <Loader/>
     return (
         <>
             <Form onSubmit={submitHandler} inline>
@@ -56,6 +56,7 @@ const HomeScreen = ({ categories, isLoading }) => {
 
 const mapStateToProps = (state) => ({
     categories: state.categories.categories,
-    isLoading: state.categories.isLoading
+    isLoading: state.categories.isLoading,
+    isAdmin: state.auth.isAdmin
 })
 export default connect(mapStateToProps)(HomeScreen);
