@@ -1,4 +1,4 @@
-import React,{ useEffect } from 'react'
+import React, { useEffect } from 'react'
 import { useState } from 'react'
 import { Form, Button, Image } from 'react-bootstrap'
 import FormContainer from '../components/FormContainer'
@@ -27,8 +27,8 @@ const UserEditScreen = ({ match, isAdmin, businesses, categories }) => {
     const uploadFileHandler = async (e) => {
         let file = e.target.files[0];
         let fileType = file.type;
-        if( file === undefined || file.size === 0 || 
-            !(fileType === "image/jpg" || fileType === "image/jpeg" || fileType === "image/png")){
+        if (file === undefined || file.size === 0 ||
+            !(fileType === "image/jpg" || fileType === "image/jpeg" || fileType === "image/png")) {
             return;
         }
         let reader = new FileReader();
@@ -43,7 +43,7 @@ const UserEditScreen = ({ match, isAdmin, businesses, categories }) => {
     }
     const submitHandler = (e) => {
         e.preventDefault()
-        if(!validate())return;
+        if (!validate()) return;
         try {
             dispatch(setBusiness({
                 name,
@@ -61,11 +61,11 @@ const UserEditScreen = ({ match, isAdmin, businesses, categories }) => {
         } catch (err) {
             setMessage(err.message);
         }
-        
+
     }
     useEffect(() => {
-        if(isAdmin === 'false')history.push('/');
-    }, [isAdmin,history])
+        if (isAdmin === 'false') history.push('/');
+    }, [isAdmin, history])
 
     return (
         <>
@@ -115,11 +115,17 @@ const UserEditScreen = ({ match, isAdmin, businesses, categories }) => {
                             value={category}
                             required
                             onChange={e => {
+                                console.log("e.target.value", e.target.value);
                                 setCategory(e.target.value);
                             }}>
-                            <option value="DICTUM">Dictamen</option>
-                            <option value="CONSTANCY">Constancia</option>
-                            <option value="COMPLEMENT">Complemento</option>
+                            <option value="">
+                                --Select Category--
+                        </option>
+                            {categories.map(
+                                (cat) => (
+                                    <option key={cat.uid} value={cat.name}>{cat.name}</option>
+                                )
+                            )}
                         </Form.Control>
                     </Form.Group>
 
@@ -154,7 +160,7 @@ const UserEditScreen = ({ match, isAdmin, businesses, categories }) => {
                         ></Form.Control> */}
                         <Form.File
                             id='image-file'
-                            label='Choose File'
+                            label=''
                             required
                             custom
                             onChange={uploadFileHandler}
@@ -163,11 +169,11 @@ const UserEditScreen = ({ match, isAdmin, businesses, categories }) => {
                     {isApproved === false ?
                         <Button type='submit' variant='primary'>
                             Approve
-                        </Button> 
+                        </Button>
                         :
                         null
                     }
-                    
+
                 </Form>
 
 
