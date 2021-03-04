@@ -7,7 +7,7 @@ import { auth } from '../configs/firebase.config'
 const BusinessDetailsScreen = ({ match, businesses }) => {
 
     const specificBusiness = businesses.find((p) => p.uid === match.params.businessUid)
-    if (specificBusiness === undefined) return `<h1>something went wrong...</h1>`;
+    if (specificBusiness === undefined) return `Loading`;
     return (
         <>
             <Link className='btn btn-light my-3' to='/'>
@@ -42,8 +42,8 @@ const BusinessDetailsScreen = ({ match, businesses }) => {
                                 <br />,
                                 cur
                             ])} */}
-                            {specificBusiness.products.split(',').map((item) => <> 
-                            <i className="fas fa-arrow-alt-circle-left fa-fw"></i>
+                            {specificBusiness.products.split(',').map((item,i) => <> 
+                            <i key={i} className="fas fa-arrow-alt-circle-left fa-fw"></i>
                             {item} 
                             <br /> </>)}
                                 

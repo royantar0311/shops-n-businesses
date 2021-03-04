@@ -20,7 +20,7 @@ const RegisterScreen = ({ categories }) => {
     const [confirmPassword, setConfirmPassword] = useState('')
     const [contactNumber, setContactNumber] = useState("")
     const [address, setAddress] = useState('')
-    const [category, setCategory] = useState('Select category')
+    const [category, setCategory] = useState("")
 
     const [products, setProducts] = useState('')
     const [description, setDescription] = useState('')
@@ -120,14 +120,17 @@ const RegisterScreen = ({ categories }) => {
                     <Form.Control
                         as="select"
                         value={category}
-                        onChange={e => setCategory(e.target.value)}>
-
-                        <option value="" selected>
+                        onChange={e => {
+                            console.log("e.target.value", e.target.value);
+                            setCategory(e.target.value);
+                        }}>
+                        <option value="">
                             --Select Category--
           </option>
+                        {console.log(categories)}
                         {categories.map(
                             (cat) => (
-                                <option value={cat.name}>{cat.name}</option>
+                                <option key={cat.uid} value={cat.name}>{cat.name}</option>
                             )
                         )}
                     </Form.Control>
