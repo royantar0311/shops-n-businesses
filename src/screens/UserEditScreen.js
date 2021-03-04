@@ -21,7 +21,7 @@ const UserEditScreen = ({ match, isAdmin, businesses, categories }) => {
     const [products, setProducts] = useState(business.products)
     const [description, setDescription] = useState(business.description)
     const [image, setImage] = useState(business.image)
-    const [isApproved, setIsApproved] = useState(business.isApproved);
+    const [isApproved] = useState(business.isApproved);
     const uploadFileHandler = async (e) => {
         let file = e.target.files[0];
         let fileType = file.type;

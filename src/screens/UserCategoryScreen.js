@@ -5,6 +5,7 @@ import FormContainer from '../components/FormContainer'
 import { connect, useDispatch } from 'react-redux';
 import { useHistory } from 'react-router-dom';
 import { addCategory,fetchCategories } from '../redux/firestore/categories/categories.actions';
+import { db } from '../configs/firebase.config';
 
 const UserCategoryScreen = ({isAdmin}) => {
     const dispatch = useDispatch();
@@ -31,9 +32,11 @@ const UserCategoryScreen = ({isAdmin}) => {
     const submitHandler = (e) => {
         console.log('jacche');
         e.preventDefault()
+        const newRef = db.collection('categories').doc();
         dispatch(addCategory({
             description,
             image,
+            uid: newRef.id,
             name: categoryName
         }));
         dispatch(fetchCategories());

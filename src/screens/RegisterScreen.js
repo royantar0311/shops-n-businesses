@@ -4,7 +4,7 @@ import { Form, Button, Card } from 'react-bootstrap';
 import FormContainer from '../components/FormContainer';
 import { auth } from '../configs/firebase.config';
 import { useDispatch } from 'react-redux';
-import { fetchBusinesses, setBusiness } from '../redux/firestore/businesses/businesses.actions'
+import { setBusiness } from '../redux/firestore/businesses/businesses.actions'
 import { useHistory } from "react-router-dom";
 import { connect } from 'react-redux';
 
@@ -58,7 +58,7 @@ const RegisterScreen = ({ categories }) => {
                 uid: auth.currentUser.uid,
                 isApproved: false
             }));
-            dispatch(fetchBusinesses());
+            // dispatch(fetchBusinesses());
         } catch (err) {
             console.log(err.message);
         }

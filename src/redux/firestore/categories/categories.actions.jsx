@@ -18,8 +18,7 @@ export const fetchCategories = () => async (dispatch) => {
 } 
 export const addCategory = (data) => async (dispatch) => {
     try{
-        console.log('here')
-        await db.collection('categories').add(data);
+        await db.collection('categories').doc(data.uid).set(data);
         dispatch({
             type: categoriesTypes.ADD_CATEGORY,
             payload: data

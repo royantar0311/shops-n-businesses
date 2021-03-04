@@ -1,13 +1,14 @@
-import React from 'react'
-import { useState } from 'react'
+import React,{ useState, useEffect } from 'react'
+import { useHistory } from 'react-router-dom'
 import { Form, Button, Card } from 'react-bootstrap'
 import FormContainer from '../components/FormContainer'
 import { useDispatch, connect } from 'react-redux';
-import { addBusiness } from '../redux/firestore/businesses/businesses.actions';
+import { setBusiness } from '../redux/firestore/businesses/businesses.actions';
 import { db } from '../configs/firebase.config'
-const UserAddScreen = ({ categories }) => {
+const UserAddScreen = ({ categories, isAdmin }) => {
 
     const dispatch = useDispatch();
+    const history = useHistory();
 
     const [name, setName] = useState("")
     const [contactNumber, setContactNumber] = useState("")
@@ -34,19 +35,23 @@ const UserAddScreen = ({ categories }) => {
     const submitHandler = async (e) => {
         e.preventDefault()
         let newRef = await db.collection("businesses").doc();
-        console.log(newRef.get);
-        // dispatch(addBusiness({
-        //     name,
-        //     contactNumber,
-        //     address,
-        //     products,
-        //     description,
-        //     category,
-        //     image,
-        //     isApproved: true
-        // }, newRef));
-
+        dispatch(setBusiness({
+            name,
+            contactNumber,
+            address,
+            products,
+            description,
+            category,
+            image,
+            uid: newRef.id,
+            isApproved: true
+        }));
+        history.push('/admin/userlist')
     }
+
+    useEffect(() => {
+        if(isAdmin === 'false')history.push('/');
+    }, [isAdmin,history])
 
     return (
         <>
@@ -149,6 +154,7 @@ const UserAddScreen = ({ categories }) => {
 }
 
 const mapStateToProps = (state) => ({
-    categories: state.categories.categories
+    categories: state.categories.categories,
+    isAdmin: state.auth.isAdmin
 })
 export default connect(mapStateToProps)(UserAddScreen)
