@@ -67,10 +67,11 @@ const RegisterScreen = ({ categories }) => {
                 uid: auth.currentUser.uid,
                 isApproved: false
             }));
+            history.push('/');
         } catch (err) {
             setMessage(err.message);
         }
-        history.push('/');
+        
     }
 
     return (
