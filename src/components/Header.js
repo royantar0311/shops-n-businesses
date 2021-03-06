@@ -1,11 +1,22 @@
-import React from 'react'
+import React, { useState } from 'react'
 import { Container, Nav, Navbar } from 'react-bootstrap'
 import { LinkContainer } from 'react-router-bootstrap'
 import { connect } from 'react-redux';
 import { useHistory } from 'react-router-dom';
 import { auth } from '../configs/firebase.config';
+import { Row, Col, Form, Button } from 'react-bootstrap'
 const Header = ({ user, isAdmin }) => {
     const history = useHistory();
+    const [search, setSearch] = useState("");
+
+    const submitHandler = (e) => {
+        e.preventDefault()
+
+        history.push(`/search/${search}`);
+        // const temp = categories.filter((cat) => cat.name.toLowerCase().includes(search) === true || cat.description.toLowerCase().includes(search)===true)
+        // // console.log(temp)
+        // setFilteredCategory(temp)
+    }
 
     const handleSignOut = (e) => {
         e.preventDefault();
@@ -14,11 +25,17 @@ const Header = ({ user, isAdmin }) => {
     }
     return (
         <header>
+
+
             <Navbar bg="dark" variant="dark" expand="lg" collapseOnSelect>
                 <Container>
+
                     <LinkContainer to='/'>
                         <Navbar.Brand>Business</Navbar.Brand>
                     </LinkContainer>
+
+
+
                     <Navbar.Toggle aria-controls="basic-navbar-nav" />
                     <Navbar.Collapse id="basic-navbar-nav">
                         <Nav className="ml-auto">
@@ -70,6 +87,20 @@ const Header = ({ user, isAdmin }) => {
                             </>
                         </Nav>
                     </Navbar.Collapse>
+                    <Form onSubmit={submitHandler} inline>
+                        <Form.Group controlId="formBasicEmail">
+                            <Form.Control
+                                type='text'
+                                name='q'
+                                onChange={(e) => setSearch(e.target.value)}
+                                placeholder='Search Categories'
+                                className='mr-sm-2 ml-sm-5'
+                            ></Form.Control>
+                            <Button type='submit' variant='outline-success' className='p-2'>
+                                Search
+                 </Button>
+                        </Form.Group>
+                    </Form>
                 </Container>
             </Navbar>
         </header >

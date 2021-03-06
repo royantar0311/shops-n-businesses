@@ -14,6 +14,7 @@ import UserCategoryScreen from './screens/UserCategoryScreen'
 import CustomerEditScreen from './screens/CustomerEditScreen'
 import CategoryScreen from './screens/CategoryScreen' 
 import CategoryEditScreen from './screens/CategoryEditScreen'
+import SearchScreen from './screens/SearchScreen'
 import { BrowserRouter as Router, Route } from 'react-router-dom'
 import { useDispatch } from 'react-redux';
 import { fetchCategories } from './redux/firestore/categories/categories.actions'
@@ -60,6 +61,7 @@ const App = () => {
           <Route path='/admin/categorylist' component={CategoryScreen} />
           <Route path='/admin/category/:id/edit' component={CategoryEditScreen} />
           <Route path='/customer/:id/edit' component={CustomerEditScreen} />
+          <Route path='/search/:id' component={SearchScreen} />
         </Container>
       </main>
       <Footer />
