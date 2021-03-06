@@ -3432,10 +3432,10 @@ input[type="submit"].btn-block {
   font-size: 0.875rem;
   font-weight: 400;
   line-height: 1.5;
-  color: #55595c;
+  color: #fff;
   text-align: center;
   white-space: nowrap;
-  background-color: #eceeef;
+  background-color: #97b020;
   border: 0 solid #ced4da;
 }
 .input-group-text input[type="checkbox"],

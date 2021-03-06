@@ -4,13 +4,14 @@ import { LinkContainer } from 'react-router-bootstrap'
 import { connect } from 'react-redux';
 import { useHistory } from 'react-router-dom';
 import { auth } from '../configs/firebase.config';
-import { Row, Col, Form, Button } from 'react-bootstrap'
+import { Row, Col, Form, Button, InputGroup, FormControl } from 'react-bootstrap'
 const Header = ({ user, isAdmin }) => {
     const history = useHistory();
     const [search, setSearch] = useState("");
 
     const submitHandler = (e) => {
         e.preventDefault()
+        console.log(search)
 
         history.push(`/search/${search}`);
         // const temp = categories.filter((cat) => cat.name.toLowerCase().includes(search) === true || cat.description.toLowerCase().includes(search)===true)
@@ -87,7 +88,21 @@ const Header = ({ user, isAdmin }) => {
                             </>
                         </Nav>
                     </Navbar.Collapse>
-                    <Form onSubmit={submitHandler} inline>
+
+                    <Form inline onSubmit={submitHandler}>
+                        <InputGroup>
+                            <InputGroup.Prepend onClick={submitHandler}>
+                                <InputGroup.Text id="basic-addon1">Search</InputGroup.Text>
+                            </InputGroup.Prepend>
+                            <FormControl onChange={(e) => setSearch(e.target.value)}
+                                placeholder="Search..."
+                                aria-label="search"
+                                aria-describedby="basic-addon1"
+                            />
+                        </InputGroup>
+                    </Form>
+
+                    {/* <Form onSubmit={submitHandler} inline>
                         <Form.Group controlId="formBasicEmail">
                             <Form.Control
                                 type='text'
@@ -100,7 +115,7 @@ const Header = ({ user, isAdmin }) => {
                                 Search
                  </Button>
                         </Form.Group>
-                    </Form>
+                    </Form> */}
                 </Container>
             </Navbar>
         </header >
