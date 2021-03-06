@@ -9298,10 +9298,11 @@ a.text-dark:hover {
   font-weight: 600;
 }
 .navbar-nav .nav-link {
-  padding-top: 0.715rem;
+  padding-top: 1.5rem;
   padding-bottom: 0.715rem;
 }
 .navbar-brand {
+  padding-top: 1rem;
   margin-right: 2rem;
 }
 .bg-primary {

@@ -25,6 +25,7 @@ const HomeScreen = ({ categories, isLoading, isAdmin }) => {
     return (
         <>
             <Form onSubmit={submitHandler} inline>
+            <Form.Group controlId="formBasicEmail">
                 <Form.Control
                     type='text'
                     name='q'
@@ -35,6 +36,7 @@ const HomeScreen = ({ categories, isLoading, isAdmin }) => {
                 <Button type='submit' variant='outline-success' className='p-2'>
                     Search
                  </Button>
+                 </Form.Group>
             </Form>
 
 

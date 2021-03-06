@@ -23,24 +23,34 @@ const Header = ({ user, isAdmin }) => {
                     <Navbar.Collapse id="basic-navbar-nav">
                         <Nav className="ml-auto">
                             <>  {user && user !== undefined && isAdmin !== 'loading' ?
-                                        isAdmin === 'true' ?
-                                            <LinkContainer to='/admin/userlist'>
-                                                <Nav.Link>
-                                                    <i className="fas fa-user-cog fa-fw "></i>
+                                isAdmin === 'true' ?
+                                    <>
+                                        <LinkContainer to='/admin/userlist'>
+                                            <Nav.Link>
+                                                <i className="fas fa-user-cog fa-fw "></i>
                                                         Admin Panel
                                             </Nav.Link>
-                                            </LinkContainer>
-                                            :
-                                            <LinkContainer to={`/businessdetails/${auth.currentUser.uid}`}>
-                                                <Nav.Link>
-                                                    <i className="fas fa-user-edit fa-fw"></i>
+                                        </LinkContainer>
+
+                                        <LinkContainer to='/admin/categorylist'>
+                                            <Nav.Link>
+                                                <i className="fas fa-list-alt fa-fw"></i>
+                                                        Category List
+                                            </Nav.Link>
+                                        </LinkContainer>
+                                    </>
+
+                                    :
+                                    <LinkContainer to={`/businessdetails/${auth.currentUser.uid}`}>
+                                        <Nav.Link>
+                                            <i className="fas fa-user-edit fa-fw"></i>
                                                     Edit Business
                                             </Nav.Link>
-                                            </LinkContainer>
-                                     
-                                        : null
-                                
-                                }
+                                    </LinkContainer>
+
+                                : null
+
+                            }
                                 {user && user != null ?
                                     <>
                                         <Nav.Link to='/' onClick={(e) => handleSignOut(e)}>

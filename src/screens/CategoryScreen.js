@@ -1,71 +1,60 @@
-import React,{ useEffect } from 'react'
+import React,{useState,useEffect} from 'react'
 import { LinkContainer } from 'react-router-bootstrap'
 import { Table, Button, Row, Col } from 'react-bootstrap'
 import { connect, useDispatch } from 'react-redux';
 import { useHistory } from 'react-router-dom';
-import { deleteBusiness } from '../redux/firestore/businesses/businesses.actions'
+const CategoryScreen = ({isAdmin,categories}) => {
 
-
-const UserListScreen = ({isAdmin, businesses}) => {
     const history = useHistory();
     const dispatch = useDispatch();
-    const deleteHandler = (business) => {
-        console.log(business);
-        dispatch(deleteBusiness(business))
-    }
+
     useEffect(() => {
-        history.push('/admin/userList');
-    }, [businesses, history])
-    
+        history.push('/admin/categorylist');
+    }, [categories, history])
+
     useEffect(() => {
         if(isAdmin === 'false')history.push('/');
     }, [isAdmin,history])
+
     return (
-        <>
+        <>  
             <Row className='align-items-center'>
+            {console.log(categories)}
                 <Col className='text-right'>
-                    <LinkContainer to={`/admin/user/addbusiness`}>
+                    <LinkContainer to={`/admin/addcategory`}>
                         <Button className='my-3'>
-                            <i className='fas fa-plus'></i> Create Business
+                            <i className='fas fa-plus'></i> Create Category
           </Button>
                     </LinkContainer>
                 </Col>
             </Row>
 
 
-            <h1>Users</h1>
-            <Table striped bordered hover responsive className='table-sm text-right'>
+            <h1>Categories</h1>
+            <Table striped bordered hover responsive className='table-sm text-right' >
                 <thead>
                     <tr>
-                        <th>Business Name</th>
-                        <th>Approval Status</th>
+                        <th>Categories Name</th>
                         <th></th>
                     </tr>
                 </thead>
                 <tbody>
-                    {businesses.map((business) => (
-                        <tr key={business.uid}>
-                            <td>{business.name}</td>
+                    {categories.map((category) => (
+                        <tr key={category.uid}>
+                            <td>{category.name}</td>
                             <td>
-                                {business.isApproved ? (
-                                    <i className='fas fa-check' style={{ color: 'green' }}></i>
-                                ) : (
-                                        <i className='fas fa-times' style={{ color: 'red' }}></i>
-                                    )}
-                            </td>
-                            <td>
-                                <LinkContainer to={`/admin/user/${business.uid}/edit`}>
+                                <LinkContainer to={`/admin/category/${category.uid}/edit`}>
                                     <Button variant='light' className='btn-sm'>
                                         <i className='fas fa-edit'></i>
                                     </Button>
                                 </LinkContainer>
-                                <Button
+                                {/* <Button
                                     variant='danger'
                                     className='btn-sm'
                                     onClick={() => deleteHandler(business)}
                                 >
                                     <i className='fas fa-trash'></i>
-                                </Button>
+                                </Button> */}
                             </td>
                         </tr>
                     ))}
@@ -74,8 +63,9 @@ const UserListScreen = ({isAdmin, businesses}) => {
         </>
     )
 }
+
 const mapStateToProps = (state) => ({
     isAdmin: state.auth.isAdmin,
-    businesses: state.businesses.businesses
+    categories: state.categories.categories
 })
-export default connect(mapStateToProps)(UserListScreen);
+export default connect(mapStateToProps)(CategoryScreen)
