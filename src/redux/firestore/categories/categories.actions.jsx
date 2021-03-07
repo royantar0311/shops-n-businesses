@@ -30,3 +30,10 @@ export const addCategory = (data) => async (dispatch) => {
         console.log(err);
     }
 }
+export const editCategory = (data) => async (dispatch) => {
+    dispatch({
+        type: categoriesTypes.EDIT_CATEGORY,
+        payload: data
+    })
+    await db.collection('categories').doc(data.uid).update(data);
+}

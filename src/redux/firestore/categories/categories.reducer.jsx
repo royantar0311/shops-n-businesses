@@ -6,6 +6,7 @@ const initialState = {
 };
 
 const categoriesReducer = (state = initialState, action) => { 
+    let categories;
     switch(action.type){
         case categoriesTypes.FETCH_CATEGORIES:
             return {
@@ -14,7 +15,7 @@ const categoriesReducer = (state = initialState, action) => {
                 isLoading: false
             };
         case categoriesTypes.ADD_CATEGORY:
-            const categories = state.categories;
+            categories = state.categories;
             categories.push(action.payload)
             return {
                 ...state,
@@ -25,6 +26,14 @@ const categoriesReducer = (state = initialState, action) => {
                 ...state,
                 isLoading: true,
             }
+        case categoriesTypes.EDIT_CATEGORY:
+            categories = state.categories.filter(category => category.uid !== action.payload.uid);
+            categories.push(action.payload);
+            return {
+                ...state,
+                categories
+            }
+
         default:
              return state;
     }

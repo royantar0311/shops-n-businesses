@@ -4,11 +4,13 @@ import { Form, Button, Card } from 'react-bootstrap'
 import FormContainer from '../components/FormContainer'
 import { connect, useDispatch } from 'react-redux';
 import { useHistory } from 'react-router-dom';
-import { addCategory,fetchCategories } from '../redux/firestore/categories/categories.actions';
+import { addCategory,editCategory,fetchCategories } from '../redux/firestore/categories/categories.actions';
 import Message from '../components/Message';
-import { db } from '../configs/firebase.config';
+import { auth, db } from '../configs/firebase.config';
+import Loader from '../components/Loader';
+import { editBusinessCategory, fetchBusinesses } from '../redux/firestore/businesses/businesses.actions';
 
-const CategoryEditScreen = ({isAdmin}) => {
+const CategoryEditScreen = ({isAdmin, match, categories, businesses}) => {
     const dispatch = useDispatch();
     const history = useHistory();
 
@@ -16,6 +18,7 @@ const CategoryEditScreen = ({isAdmin}) => {
     const [description, setDescription] = useState('')
     const [image, setImage] = useState('')
     const [message, setMessage] = useState(null);
+    const [uid, setUid] = useState(''); 
     const uploadFileHandler = async (e) => {
         let file = e.target.files[0];
         let fileType = file.type;
@@ -37,20 +40,35 @@ const CategoryEditScreen = ({isAdmin}) => {
     const submitHandler = (e) => {
         e.preventDefault()
         if(!validate())return;
-        const newRef = db.collection('categories').doc();
-        dispatch(addCategory({
-            description,
-            image,
-            uid: newRef.id,
-            name: categoryName
-        }));
-        dispatch(fetchCategories());
-        history.push('/admin/categorylist');
+        try{
+            dispatch(editCategory({
+                description,
+                image,
+                uid,
+                name: categoryName
+            }));
+            dispatch(editBusinessCategory(businesses, match.params.id, categoryName))
+            history.push('/admin/categorylist');
+        }catch(err){
+            setMessage(err.message);
+        }
+        
     }
+    console.log("uid"+uid);
+    useEffect(()=>{
+        setCategoryName(match.params.id);
+
+        if(categories === undefined)return;
+        const { image, description, uid } = categories.filter(category => category.name === match.params.id)[0];
+        setImage(image);
+        setUid(uid);
+        setDescription(description);
+    }, [setCategoryName, match,categories])
     useEffect(() => {
         if(isAdmin === 'false')history.push('/');
     }, [isAdmin,history])
 
+    if(isAdmin === 'loading' || categories === undefined || categoryName === undefined)return <Loader/>;
     return (
         <>
             <FormContainer>
@@ -87,7 +105,6 @@ const CategoryEditScreen = ({isAdmin}) => {
                             id='image-file'
                             label=''
                             custom
-                            required
                             onChange={uploadFileHandler}
                         ></Form.File>
                     </Form.Group>
@@ -104,4 +121,9 @@ const CategoryEditScreen = ({isAdmin}) => {
     )
 }
 
-export default CategoryEditScreen
+const mapStateToProps = (state) => ({
+    categories: state.categories.categories,
+    isAdmin: state.auth.isAdmin,
+    businesses: state.businesses.businesses
+})
+export default connect(mapStateToProps)(CategoryEditScreen);

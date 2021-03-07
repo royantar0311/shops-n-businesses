@@ -24,6 +24,11 @@ const businessReducer = (state = initialState, action) => {
                 ...state,
                 businesses: businesses.filter (business => business.uid !== action.payload.uid)
             }
+        case businessesTypes.CHANGE_BUSINESS_CATEGORY:
+            return {
+                ...state,
+                businesses: action.payload
+            }
         default: 
             return state;
     }

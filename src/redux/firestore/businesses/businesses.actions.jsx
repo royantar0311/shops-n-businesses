@@ -42,3 +42,25 @@ export const deleteBusiness = (business) => async (dispatch) => {
         console.log(err);
     }
 }
+
+export const editBusinessCategory = (_, oldCategoryName, newCategoryName) => async (dispatch) => {
+    const businesses = [];
+    const querySnapshot = await db.collection('businesses').get();
+        querySnapshot.forEach(async (doc) => {
+            if(doc.exists && doc.data()){
+                const data = doc.data();
+                if(data.category === oldCategoryName){
+                    data.category = newCategoryName;
+                    await db.collection('businesses').doc(data.uid).update(data);
+                }
+                businesses.push(data);
+            }
+        })
+        dispatch({
+            type: businessesTypes.FETCH_BUSINESSES,
+            payload: businesses
+        })
+    
+    // const batch = db.batch();
+    
+}

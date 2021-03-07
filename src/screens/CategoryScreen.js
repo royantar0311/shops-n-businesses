@@ -19,7 +19,6 @@ const CategoryScreen = ({isAdmin,categories}) => {
     return (
         <>  
             <Row className='align-items-center'>
-            {console.log(categories)}
                 <Col className='text-right'>
                     <LinkContainer to={`/admin/addcategory`}>
                         <Button className='my-3'>
@@ -43,18 +42,11 @@ const CategoryScreen = ({isAdmin,categories}) => {
                         <tr key={category.uid}>
                             <td>{category.name}</td>
                             <td>
-                                <LinkContainer to={`/admin/category/${category.uid}/edit`}>
+                                <LinkContainer to={`/admin/category/${category.name}/edit`}>
                                     <Button variant='light' className='btn-sm'>
                                         <i className='fas fa-edit'></i>
                                     </Button>
                                 </LinkContainer>
-                                {/* <Button
-                                    variant='danger'
-                                    className='btn-sm'
-                                    onClick={() => deleteHandler(business)}
-                                >
-                                    <i className='fas fa-trash'></i>
-                                </Button> */}
                             </td>
                         </tr>
                     ))}
