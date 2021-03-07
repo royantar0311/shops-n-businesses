@@ -6,7 +6,7 @@ import Category from '../components/Category'
 import Business from '../components/Business'
 import Loader from '../components/Loader'
 
-const perPageMax = 1;
+const perPageMax = 4;
 
 
 const SearchScreen = ({ match, categories, businesses }) => {
