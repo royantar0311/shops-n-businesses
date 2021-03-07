@@ -22,7 +22,7 @@ const businessReducer = (state = initialState, action) => {
         case businessesTypes.DELETE_BUSINESS:
             return {
                 ...state,
-                businesses: businesses.filter (business => business.uid !== action.payload.uid)
+                businesses: state.businesses.filter (business => business.uid !== action.payload.uid)
             }
         case businessesTypes.CHANGE_BUSINESS_CATEGORY:
             return {

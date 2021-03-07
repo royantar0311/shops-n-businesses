@@ -45,7 +45,7 @@ const UserCategoryScreen = ({isAdmin}) => {
             name: categoryName
         }));
         dispatch(fetchCategories());
-        history.push('/admin/userlist');
+        history.push('/admin/categorylist');
     }
     useEffect(() => {
         if(isAdmin === 'false')history.push('/');
