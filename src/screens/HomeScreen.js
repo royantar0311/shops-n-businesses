@@ -1,25 +1,48 @@
 import React, { useState, useEffect } from 'react'
-import { Row, Col } from 'react-bootstrap'
+import { Row, Col, Pagination } from 'react-bootstrap'
 import Category from '../components/Category'
 import { connect } from 'react-redux'
 import Loader from '../components/Loader'
 
+const perPageMax = 8;
+
 const HomeScreen = ({ categories, isLoading, isAdmin }) => {
 
     const [filteredCategory, setFilteredCategory] = useState(categories)    
-
+    const [active, setActive] = useState(1);
     useEffect(() => {
-        setFilteredCategory(categories)
-    }, [categories, setFilteredCategory])
+        let index = active;
+        index--;
+        let temp = [];
+        for(let i=index*perPageMax;i<index*perPageMax+perPageMax && i<categories.length;i++){
+            temp.push(categories[i]);
+        }
+        console.log(temp)
+        setFilteredCategory(temp);
+    }, [categories, setFilteredCategory, active])
+
+    const paginate = (e)=>{
+        e.preventDefault();
+        let index = Number(e.target.innerText);
+        if(isNaN(index))return;
+        setActive(index);
+    }
 
     if(isLoading || isAdmin === 'loading')return <Loader/>
+    let items = [];
+    for (let number = 1; number <= Math.ceil(categories.length/perPageMax); number++) {
+        items.push(
+            <Pagination.Item key={number} onClick={paginate} active={number === active}>
+            {number}
+            </Pagination.Item>,
+        );
+    }
     return (
         <>
-
             <h1>Categories</h1>
-            {console.log(filteredCategory)}
             <Row className="text-right">
                 {filteredCategory.map((category) => {
+                    if(category.uid === undefined)return null;
                     return (
                         <Col key={category.uid} sm={12} md={6} lg={4} xl={3}>
                             <Category key={category.uid} category={category} />
@@ -27,7 +50,9 @@ const HomeScreen = ({ categories, isLoading, isAdmin }) => {
                     )
                 })}
             </Row>
-
+                <div>
+                    <Pagination size="sm">{items}</Pagination>
+                </div>
         </>
     )
 }
