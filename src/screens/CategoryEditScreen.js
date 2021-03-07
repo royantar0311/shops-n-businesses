@@ -4,11 +4,10 @@ import { Form, Button, Card } from 'react-bootstrap'
 import FormContainer from '../components/FormContainer'
 import { connect, useDispatch } from 'react-redux';
 import { useHistory } from 'react-router-dom';
-import { addCategory,editCategory,fetchCategories } from '../redux/firestore/categories/categories.actions';
+import { editCategory } from '../redux/firestore/categories/categories.actions';
 import Message from '../components/Message';
-import { auth, db } from '../configs/firebase.config';
 import Loader from '../components/Loader';
-import { editBusinessCategory, fetchBusinesses } from '../redux/firestore/businesses/businesses.actions';
+import { editBusinessCategory } from '../redux/firestore/businesses/businesses.actions';
 
 const CategoryEditScreen = ({isAdmin, match, categories, businesses}) => {
     const dispatch = useDispatch();

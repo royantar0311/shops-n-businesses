@@ -1,12 +1,11 @@
-import React,{useState,useEffect} from 'react'
+import React,{useEffect} from 'react'
 import { LinkContainer } from 'react-router-bootstrap'
 import { Table, Button, Row, Col } from 'react-bootstrap'
-import { connect, useDispatch } from 'react-redux';
+import { connect } from 'react-redux';
 import { useHistory } from 'react-router-dom';
 const CategoryScreen = ({isAdmin,categories}) => {
 
     const history = useHistory();
-    const dispatch = useDispatch();
 
     useEffect(() => {
         history.push('/admin/categorylist');

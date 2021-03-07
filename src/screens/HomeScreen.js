@@ -1,18 +1,12 @@
 import React, { useState, useEffect } from 'react'
-import { Row, Col, Form, Button } from 'react-bootstrap'
+import { Row, Col } from 'react-bootstrap'
 import Category from '../components/Category'
 import { connect } from 'react-redux'
-import { useHistory } from 'react-router-dom';
 import Loader from '../components/Loader'
 
 const HomeScreen = ({ categories, isLoading, isAdmin }) => {
 
-    
-    const [filteredCategory, setFilteredCategory] = useState(categories)
-    const history = useHistory();
-
-
-    
+    const [filteredCategory, setFilteredCategory] = useState(categories)    
 
     useEffect(() => {
         setFilteredCategory(categories)
@@ -21,21 +15,6 @@ const HomeScreen = ({ categories, isLoading, isAdmin }) => {
     if(isLoading || isAdmin === 'loading')return <Loader/>
     return (
         <>
-            {/* <Form onSubmit={submitHandler} inline>
-            <Form.Group controlId="formBasicEmail">
-                <Form.Control
-                    type='text'
-                    name='q'
-                    onChange={(e) => setSearch(e.target.value)}
-                    placeholder='Search Categories'
-                    className='mr-sm-2 ml-sm-5'
-                ></Form.Control>
-                <Button type='submit' variant='outline-success' className='p-2'>
-                    Search
-                 </Button>
-                 </Form.Group>
-            </Form> */}
-
 
             <h1>Categories</h1>
             {console.log(filteredCategory)}

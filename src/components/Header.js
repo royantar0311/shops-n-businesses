@@ -4,7 +4,7 @@ import { LinkContainer } from 'react-router-bootstrap'
 import { connect } from 'react-redux';
 import { useHistory } from 'react-router-dom';
 import { auth } from '../configs/firebase.config';
-import { Row, Col, Form, Button, InputGroup, FormControl } from 'react-bootstrap'
+import { Form, InputGroup, FormControl } from 'react-bootstrap'
 const Header = ({ user, isAdmin }) => {
     const history = useHistory();
     const [search, setSearch] = useState("");

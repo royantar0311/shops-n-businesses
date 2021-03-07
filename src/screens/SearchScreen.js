@@ -1,7 +1,7 @@
 import React from 'react'
 import { useState, useEffect } from 'react'
 import { connect } from 'react-redux'
-import { Row, Col, Form, Button } from 'react-bootstrap'
+import { Row, Col } from 'react-bootstrap'
 import Category from '../components/Category'
 import Business from '../components/Business'
 import Loader from '../components/Loader'

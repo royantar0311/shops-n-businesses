@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react'
 import { Link } from 'react-router-dom'
-import { Row, Col, Image, ListGroup, Form, Button } from 'react-bootstrap'
+import { Row, Col, Image, ListGroup} from 'react-bootstrap'
 import Business from '../components/Business'
 import { connect } from 'react-redux'
 import Loader from '../components/Loader'
@@ -8,7 +8,6 @@ const BusinessScreen = ({ match, categories, businesses }) => {
     const [business, setBusiness] = useState(undefined);
     const [category, setCategory] = useState(undefined);
     const [filteredBusiness, setFilteredBusiness] = useState([]);
-    const [search, setSearch] = useState('');
     useEffect(()=>{
         setCategory( categories.find((p) => p.name === match.params.category));
     },[categories,setCategory, match])
@@ -17,19 +16,6 @@ const BusinessScreen = ({ match, categories, businesses }) => {
         console.log(temp)
         setFilteredBusiness(temp);
     }, [setBusiness, businesses, match, setFilteredBusiness, business]);
-
-    const submitHandler = (e) => {
-        e.preventDefault();
-        if(search === ''){
-            setFilteredBusiness(businesses.filter((p) => p.category === match.params.category));
-            return;
-        }
-        setSearch(search.toLowerCase());
-        const temp = filteredBusiness.filter((bus) => bus.name.toLowerCase().includes(search) === true 
-                        || bus.description.toLowerCase().includes(search)===true
-                        || bus.products.toLowerCase().includes(search)===true)
-        setFilteredBusiness(temp);
-    }
 
     if(filteredBusiness === undefined || category === undefined)return <Loader/>;
     return (
@@ -52,7 +38,7 @@ const BusinessScreen = ({ match, categories, businesses }) => {
                     </ListGroup>
                 </Col>
             </Row>
-            <Form onSubmit={submitHandler} inline className="my-3">
+            {/* <Form onSubmit={submitHandler} inline className="my-3">
                 <Form.Control
                     type='text'
                     name='q'
@@ -63,7 +49,7 @@ const BusinessScreen = ({ match, categories, businesses }) => {
                 <Button type='submit' variant='outline-success' className='p-2'>
                     Search
                  </Button>
-            </Form>
+            </Form> */}
             <h1 className="my-3">Business</h1>
             {
                 filteredBusiness.length === 0 ? <p>Businesses are coming</p> :
