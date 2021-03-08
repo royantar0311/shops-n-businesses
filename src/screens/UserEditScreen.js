@@ -49,8 +49,8 @@ const UserEditScreen = ({ match, isAdmin, businesses, categories }) => {
                 contactNumber,
                 address,
                 products,
-                category,
                 description,
+                category,
                 image,
                 uid: uid,
                 isApproved: true
@@ -65,15 +65,28 @@ const UserEditScreen = ({ match, isAdmin, businesses, categories }) => {
     useEffect(() => {
         const specificBusiness = businesses.find((business) => business.uid === match.params.id);
         if(specificBusiness === undefined)return;
-        setName(specificBusiness.name);
-        setContactNumber(specificBusiness.contactNumber);
-        setAddress(specificBusiness.address);
-        setCategory(specificBusiness.category);
-        setProducts(specificBusiness.products);
-        setImage(specificBusiness.image);
-        setDescription(specificBusiness.description);
-        setUid(specificBusiness.uid);
-        setIsApproved(specificBusiness.isApproved)
+        if(specificBusiness.isApproved === true){
+            setName(specificBusiness.name);
+            setContactNumber(specificBusiness.contactNumber);
+            setAddress(specificBusiness.address);
+            setCategory(specificBusiness.category);
+            setProducts(specificBusiness.products);
+            setImage(specificBusiness.image);
+            setDescription(specificBusiness.description);
+            setUid(specificBusiness.uid);
+            setIsApproved(specificBusiness.isApproved)
+        }
+        else {
+            setName(specificBusiness.newName);
+            setContactNumber(specificBusiness.newContactNumber);
+            setAddress(specificBusiness.newAddress);
+            setCategory(specificBusiness.newCategory);
+            setProducts(specificBusiness.newProducts);
+            setImage(specificBusiness.newImage);
+            setDescription(specificBusiness.newDescription);
+            setUid(specificBusiness.uid);
+            setIsApproved(specificBusiness.isApproved)
+        }
 
     }, [businesses, 
         match, setName, setContactNumber, 

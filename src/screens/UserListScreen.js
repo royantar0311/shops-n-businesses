@@ -45,7 +45,7 @@ const UserListScreen = ({isAdmin, businesses}) => {
                 <tbody>
                     {businesses.map((business) => (
                         <tr key={business.uid}>
-                            <td>{business.name}</td>
+                            <td>{business.name === undefined? business.newName: business.name}</td>
                             <td>
                                 {business.isApproved ? (
                                     <i className='fas fa-check' style={{ color: 'green' }}></i>

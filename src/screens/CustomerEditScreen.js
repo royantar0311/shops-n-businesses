@@ -7,6 +7,7 @@ import { connect, useDispatch } from 'react-redux';
 import Message from '../components/Message';
 import { setBusiness } from '../redux/firestore/businesses/businesses.actions'
 import { auth } from '../configs/firebase.config'
+import Loader from '../components/Loader';
 
 const CustomerEditScreen = ({ match, isAdmin, businesses, categories }) => {
     const history = useHistory();
@@ -28,14 +29,24 @@ const CustomerEditScreen = ({ match, isAdmin, businesses, categories }) => {
             return business.uid === match.params.id
         });
         if(specificBusiness === undefined)return;
-        console.log(specificBusiness);
-        setName(specificBusiness.name);
-        setContactNumber(specificBusiness.contactNumber);
-        setAddress(specificBusiness.address);
-        setCategory(specificBusiness.category);
-        setProducts(specificBusiness.products);
-        setImage(specificBusiness.image);
-        setDescription(specificBusiness.description);
+        if(specificBusiness.isApproved === true){
+            setName(specificBusiness.name);
+            setContactNumber(specificBusiness.contactNumber);
+            setAddress(specificBusiness.address);
+            setCategory(specificBusiness.category);
+            setProducts(specificBusiness.products);
+            setImage(specificBusiness.image);
+            setDescription(specificBusiness.description);
+        }
+        else {
+            setName(specificBusiness.newName);
+            setContactNumber(specificBusiness.newContactNumber);
+            setAddress(specificBusiness.newAddress);
+            setCategory(specificBusiness.newCategory);
+            setProducts(specificBusiness.newProducts);
+            setImage(specificBusiness.newImage);
+            setDescription(specificBusiness.description);
+        }
 
     }, [businesses, 
         match, setName, setContactNumber, 
@@ -62,13 +73,13 @@ const CustomerEditScreen = ({ match, isAdmin, businesses, categories }) => {
         e.preventDefault()
         try {
             dispatch(setBusiness({
-                name,
-                contactNumber,
-                address,
-                products,
-                category,
-                description,
-                image,
+                newName: name,
+                newContactNumber: contactNumber,
+                newAddress: address,
+                newProducts: products,
+                newDescription: description,
+                newCategory: category,
+                newImage: image,
                 uid: auth.currentUser.uid,
                 isApproved: false
             }));
@@ -78,7 +89,7 @@ const CustomerEditScreen = ({ match, isAdmin, businesses, categories }) => {
         }
         
     }
-    if(!name || !image || !description || !contactNumber || !products || !address || !category)return 'loading';
+    if(name === undefined)return <Loader/>;
     return (
         <>
             <FormContainer>

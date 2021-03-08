@@ -71,7 +71,6 @@ const BusinessScreen = ({ match, categories, businesses }) => {
                 <>
                     <Row>
                         {filteredBusiness.map((busi) => {
-                            if (busi.isApproved === false) return null;
                             return (<Col key={busi.uid} sm={12} md={6} lg={4} xl={3}>
                                 <Business busi={busi} />
                             </Col>)

@@ -56,14 +56,14 @@ const RegisterScreen = ({ categories }) => {
         try {
             await auth.createUserWithEmailAndPassword(email, password);
             dispatch(setBusiness({
-                name,
-                contactNumber,
-                address,
-                products,
-                description,
-                category,
-                image,
-                email,
+                newName: name,
+                newContactNumber: contactNumber,
+                newAddress: address,
+                newProducts: products,
+                newDescription: description,
+                newCategory: category,
+                newImage: image,
+                newEmail: email,
                 uid: auth.currentUser.uid,
                 isApproved: false
             }));
