@@ -9,7 +9,7 @@ const firebaseConfig = {
     storageBucket: "shops-upwork.appspot.com",
     messagingSenderId: "633007557034",
     appId: "1:633007557034:web:7d7f3eec792199266e83d3"
-  };
+};
 firebase.initializeApp(firebaseConfig);
 
 export const db = firebase.firestore();

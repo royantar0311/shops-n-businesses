@@ -112,7 +112,6 @@ const UserAddScreen = ({ categories, isAdmin }) => {
                             required
                             value={category}
                             onChange={e => {
-                                console.log("e.target.value", e.target.value);
                                 setCategory(e.target.value);
                             }}>
                             <option value="">

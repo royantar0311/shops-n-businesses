@@ -11,12 +11,8 @@ const Header = ({ user, isAdmin }) => {
 
     const submitHandler = (e) => {
         e.preventDefault()
-        console.log(search)
 
         history.push(`/search/${search}`);
-        // const temp = categories.filter((cat) => cat.name.toLowerCase().includes(search) === true || cat.description.toLowerCase().includes(search)===true)
-        // // console.log(temp)
-        // setFilteredCategory(temp)
     }
 
     const handleSignOut = (e) => {

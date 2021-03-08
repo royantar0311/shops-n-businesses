@@ -145,7 +145,6 @@ const CustomerEditScreen = ({ match, isAdmin, businesses, categories }) => {
                         value={category}
                         required
                         onChange={e => {
-                            console.log("e.target.value", e.target.value);
                             setCategory(e.target.value);
                         }}>
                         <option value="">

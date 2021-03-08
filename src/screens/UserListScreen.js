@@ -10,7 +10,6 @@ const UserListScreen = ({isAdmin, businesses}) => {
     const history = useHistory();
     const dispatch = useDispatch();
     const deleteHandler = (business) => {
-        console.log(business);
         dispatch(deleteBusiness(business))
     }
     useEffect(() => {

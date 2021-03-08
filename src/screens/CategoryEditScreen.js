@@ -53,7 +53,6 @@ const CategoryEditScreen = ({isAdmin, match, categories, businesses}) => {
         }
         
     }
-    console.log("uid"+uid);
     useEffect(()=>{
         setCategoryName(match.params.id);
 

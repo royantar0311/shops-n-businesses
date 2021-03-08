@@ -26,7 +26,6 @@ const BusinessScreen = ({ match, categories, businesses }) => {
         for(let i=index*perPageMax;i<index*perPageMax+perPageMax && i<categoryWiseBusinesses.length;i++){
             temp.push(categoryWiseBusinesses[i]);
         }
-        console.log(temp)
         setFilteredBusiness(temp);
     }, [categoryWiseBusinesses, setFilteredBusiness, active])
     const paginate = (e) => {

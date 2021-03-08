@@ -8,7 +8,6 @@ export const fetchBusinesses = () => async (dispatch) => {
         querySnapshot.forEach((doc) => {
             data.push(doc.data());
         })
-        console.log(data);
         dispatch({
             type: businessesTypes.FETCH_BUSINESSES,
             payload: data
@@ -60,7 +59,5 @@ export const editBusinessCategory = (_, oldCategoryName, newCategoryName) => asy
             type: businessesTypes.FETCH_BUSINESSES,
             payload: businesses
         })
-    
-    // const batch = db.batch();
     
 }

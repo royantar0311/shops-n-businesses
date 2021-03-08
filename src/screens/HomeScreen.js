@@ -17,7 +17,6 @@ const HomeScreen = ({ categories, isLoading, isAdmin }) => {
         for(let i=index*perPageMax;i<index*perPageMax+perPageMax && i<categories.length;i++){
             temp.push(categories[i]);
         }
-        console.log(temp)
         setFilteredCategory(temp);
     }, [categories, setFilteredCategory, active])
 
