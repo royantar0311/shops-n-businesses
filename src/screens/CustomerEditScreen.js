@@ -25,7 +25,6 @@ const CustomerEditScreen = ({ match, isAdmin, businesses, categories }) => {
     useEffect(() => {
 
         const specificBusiness = businesses.find((business) => {
-            console.log(business.uid + " " + match.params.id)
             return business.uid === match.params.id
         });
         if(specificBusiness === undefined)return;
@@ -45,7 +44,7 @@ const CustomerEditScreen = ({ match, isAdmin, businesses, categories }) => {
             setCategory(specificBusiness.newCategory);
             setProducts(specificBusiness.newProducts);
             setImage(specificBusiness.newImage);
-            setDescription(specificBusiness.description);
+            setDescription(specificBusiness.newDescription);
         }
 
     }, [businesses, 
@@ -71,8 +70,19 @@ const CustomerEditScreen = ({ match, isAdmin, businesses, categories }) => {
 
     const submitHandler = (e) => {
         e.preventDefault()
+        const specificBusiness = businesses.find((business) => {
+            return business.uid === match.params.id
+        });
+        if(specificBusiness === undefined)return;
         try {
             dispatch(setBusiness({
+                name: specificBusiness.name,
+                contactNumber: specificBusiness.contactNumber,
+                address: specificBusiness.address,
+                products: specificBusiness.products,
+                description: specificBusiness.description,
+                category: specificBusiness.category,
+                image: specificBusiness.image,
                 newName: name,
                 newContactNumber: contactNumber,
                 newAddress: address,
@@ -93,7 +103,7 @@ const CustomerEditScreen = ({ match, isAdmin, businesses, categories }) => {
     return (
         <>
             <FormContainer>
-                <h1>Edit & Approve</h1>
+                <h1>Edit</h1>
                 {message && <Message variant={"danger"}>{message}</Message>}
                 <Form onSubmit={submitHandler} className="text-right">
                     <Form.Group controlId='name'>

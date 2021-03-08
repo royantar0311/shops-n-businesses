@@ -11,7 +11,6 @@ const BusinessDetailsScreen = ({ match, businesses }) => {
     const [name, setName] = useState('')
     const [contactNumber, setContactNumber] = useState('')
     const [address, setAddress] = useState('')
-    const [category, setCategory] = useState('')
     const [products, setProducts] = useState('')
     const [description, setDescription] = useState('')
     const [image, setImage] = useState('')
@@ -19,26 +18,15 @@ const BusinessDetailsScreen = ({ match, businesses }) => {
     useEffect(() => {
         const specificBusiness = businesses.find((p) => p.uid === match.params.businessUid);
         if(specificBusiness === undefined)return;
-        if(specificBusiness.isApproved === true){
             setName(specificBusiness.name);
             setContactNumber(specificBusiness.contactNumber);
             setAddress(specificBusiness.address);
-            setCategory(specificBusiness.category);
             setProducts(specificBusiness.products);
             setImage(specificBusiness.image);
             setUid(specificBusiness.uid);
             setDescription(specificBusiness.description);
-        }
-        else {
-            setName(specificBusiness.newName);
-            setContactNumber(specificBusiness.newContactNumber);
-            setAddress(specificBusiness.newAddress);
-            setCategory(specificBusiness.newCategory);
-            setProducts(specificBusiness.newProducts);
-            setImage(specificBusiness.newImage);
-            setUid(specificBusiness.uid);
-            setDescription(specificBusiness.description);
-        }
+        
+       
     }, [businesses, match]);
     if (name === undefined) return <Loader/>;
     return (
