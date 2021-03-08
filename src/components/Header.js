@@ -46,14 +46,14 @@ const Header = ({ user, isAdmin }) => {
                                         <LinkContainer to='/admin/userlist'>
                                             <Nav.Link>
                                                 <i className="fas fa-user-cog fa-fw "></i>
-                                                        Admin Panel
+                                                <span className="ml-1"> Admin Panel</span>
                                             </Nav.Link>
                                         </LinkContainer>
 
                                         <LinkContainer to='/admin/categorylist'>
                                             <Nav.Link>
                                                 <i className="fas fa-list-alt fa-fw"></i>
-                                                        Category List
+                                                <span className="ml-1"> Category List</span>
                                             </Nav.Link>
                                         </LinkContainer>
                                     </>
@@ -62,7 +62,7 @@ const Header = ({ user, isAdmin }) => {
                                     <LinkContainer to={`/businessdetails/${auth.currentUser.uid}`}>
                                         <Nav.Link>
                                             <i className="fas fa-user-edit fa-fw"></i>
-                                                    Edit Business
+                                            <span className="ml-1"> Edit Business</span>
                                             </Nav.Link>
                                     </LinkContainer>
 
@@ -73,14 +73,14 @@ const Header = ({ user, isAdmin }) => {
                                     <>
                                         <Nav.Link to='/' onClick={(e) => handleSignOut(e)}>
                                             <i className="fas fa-user fa-fw"></i>
-                                        Sign out
+                                            <span className="ml-1"> Sign out</span> 
                                     </Nav.Link>
                                     </>
                                     :
                                     <LinkContainer to='/login'>
                                         <Nav.Link >
                                             <i className="fas fa-user fa-fw"></i>
-                                    Sign In
+                                            <span className="ml-1"> Sign In</span>
                                     </Nav.Link>
                                     </LinkContainer>
                                 }
