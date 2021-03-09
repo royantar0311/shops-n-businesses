@@ -14,7 +14,8 @@ const UserCategoryScreen = ({isAdmin}) => {
 
     const [categoryName, setCategoryName] = useState('')
     const [description, setDescription] = useState('')
-    const [image, setImage] = useState('')
+    const [image, setImage] = useState('');
+    const [imageSrc, setImageSrc] = useState('');
     const [message, setMessage] = useState(null);
     const uploadFileHandler = async (e) => {
         let file = e.target.files[0];
@@ -23,9 +24,10 @@ const UserCategoryScreen = ({isAdmin}) => {
             !(fileType === "image/jpg" || fileType === "image/jpeg" || fileType === "image/png")){
             return;
         }
+        setImage(file);
         let reader = new FileReader();
         reader.onload = () => {
-            setImage(reader.result);
+            setImageSrc(reader.result);
         }
         reader.readAsDataURL(file);
     }
@@ -40,11 +42,10 @@ const UserCategoryScreen = ({isAdmin}) => {
         const newRef = db.collection('categories').doc();
         dispatch(addCategory({
             description,
-            image,
             uid: newRef.id,
-            name: categoryName
+            name: categoryName,
+            image
         }));
-        dispatch(fetchCategories());
         history.push('/admin/categorylist');
     }
     useEffect(() => {
@@ -82,7 +83,7 @@ const UserCategoryScreen = ({isAdmin}) => {
 
                     <Form.Group controlId='image'>
                         <Form.Label>Image</Form.Label>
-                        <Card.Img src = {image} ></Card.Img>
+                        <Card.Img src = {imageSrc} ></Card.Img>
                         <Form.File
                             id='image-file'
                             label=''

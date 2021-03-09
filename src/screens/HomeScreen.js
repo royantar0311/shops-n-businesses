@@ -27,7 +27,7 @@ const HomeScreen = ({ categories, isLoading, isAdmin }) => {
         setActive(index);
     }
 
-    if(isLoading || isAdmin === 'loading')return <Loader/>
+    if(isLoading === true || isAdmin === 'loading')return <Loader/>
     let items = [];
     for (let number = 1; number <= Math.ceil(categories.length/perPageMax); number++) {
         items.push(

@@ -15,7 +15,7 @@ const categoriesReducer = (state = initialState, action) => {
                 isLoading: false
             };
         case categoriesTypes.ADD_CATEGORY:
-            categories = state.categories;
+            categories = state.categories.filter(category => category.uid !== action.payload.uid);
             categories.push(action.payload)
             return {
                 ...state,
